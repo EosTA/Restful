@@ -7,7 +7,7 @@
     using Microsoft.Owin.Security.OAuth;
     using Owin;
     using ChatSystem.Api.Providers;
-    using ChatSystem.Api.Models;
+    using ChatSystem.Data;
 
     public partial class Startup
     {
