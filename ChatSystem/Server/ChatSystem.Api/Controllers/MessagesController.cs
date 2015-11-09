@@ -35,7 +35,7 @@ namespace ChatSystem.Api.Controllers
         [Authorize]
         public IHttpActionResult Post(SaveMessageRequestModel model)
         {
-            //logic
+            throw new System.NotImplementedException();
         }
     }
 }

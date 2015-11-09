@@ -65,6 +65,12 @@
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Common\ChatSystem.Common\ChatSystem.Common.csproj">
+      <Project>{c27a4974-7c8b-4626-aff5-b0f6fe78e04a}</Project>
+      <Name>ChatSystem.Common</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
