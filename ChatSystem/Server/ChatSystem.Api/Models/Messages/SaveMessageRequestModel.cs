@@ -8,5 +8,11 @@
         [Required]
         [MaxLength(ValidationConstants.MaxMessageLength)]
         public string Message { get; set; }
+
+        [Required]
+        public string Sender { get; set; }
+
+        [Required]
+        public string Receiver { get; set; }
     }
 }

@@ -1,41 +1,52 @@
-﻿using System.Linq;
-using ChatSystem.Api.Models.Messages;
-using ChatSystem.Data;
-
-namespace ChatSystem.Api.Controllers
+﻿namespace ChatSystem.Api.Controllers
 {
+    using System.Linq;
     using System.Web.Http;
+    using ChatSystem.Api.Models.Messages;
+    using ChatSystem.Data;
+    using ChatSystem.Services.Data;
+    using ChatSystem.Services.Data.Contracts;
 
     public class MessagesController : ApiController
     {
+        private readonly IMessagesService messages;
+
+        public MessagesController()
+        {
+            this.messages = new MessagesService();
+        }
+
         public IHttpActionResult Get()
         {
-            var db = new ChatSystemDbContext();
-            var result = db
-                .ChatMessages
-                .OrderBy(m => m.SentOn)
-                .Take(10)
+            var result = this.messages
+                .All()
+                .Select(MessageResponseModel.FromModel)
                 .ToList();
+
             return this.Ok(result);
         }
 
         [Route("api/messages/all")]
-        public IHttpActionResult Get(int page, int pageSize = 10)
+        public IHttpActionResult Get(int page, int pageSize)
         {
-            var db = new ChatSystemDbContext();
-            var result = db
-                .ChatMessages
-                .OrderBy(m => m.SentOn)
-                .Skip((page - 1) * pageSize)
-                .Take(pageSize)
+            var result = this.messages
+                .All(page,pageSize)
+                .Select(MessageResponseModel.FromModel)
                 .ToList();
+
             return this.Ok(result);
         }
 
         [Authorize]
         public IHttpActionResult Post(SaveMessageRequestModel model)
         {
-            throw new System.NotImplementedException();
+            if (!this.ModelState.IsValid)
+            {
+                return this.BadRequest(this.ModelState);
+            }
+
+            this.messages.Add(model.Message, model.Sender, model.Receiver);
+            return this.Ok();
         }
     }
 }

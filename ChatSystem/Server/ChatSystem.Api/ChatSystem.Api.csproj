@@ -213,6 +213,10 @@
       <Project>{79705d9a-e041-4b6f-9509-a22f155d16d0}</Project>
       <Name>ChatSystem.Models</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Services\ChatSystem.Services.Data\ChatSystem.Services.Data.csproj">
+      <Project>{3449055c-cb4a-4510-99a5-6364af92d0a5}</Project>
+      <Name>ChatSystem.Services.Data</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

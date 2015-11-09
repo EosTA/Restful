@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{7F876F27-12B6-44F9-A0FB-84C8B9EAAB5B}</ProjectGuid>
+    <ProjectGuid>{3449055C-CB4A-4510-99A5-6364AF92D0A5}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ChatSystem.Data</RootNamespace>
-    <AssemblyName>ChatSystem.Data</AssemblyName>
+    <RootNamespace>ChatSystem.Services.Data</RootNamespace>
+    <AssemblyName>ChatSystem.Services.Data</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -31,11 +31,11 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\EntityFramework.6.1.0\lib\net45\EntityFramework.dll</HintPath>
+      <HintPath>..\..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\EntityFramework.6.1.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <HintPath>..\..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.AspNet.Identity.Core, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -57,21 +57,27 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ChatSystemDbContext.cs" />
-    <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Contracts\IMessagesService.cs" />
+    <Compile Include="MessagesService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Repository\EfGenericRepository.cs" />
-    <Compile Include="Repository\IRepository.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Common\ChatSystem.Common\ChatSystem.Common.csproj">
+      <Project>{c27a4974-7c8b-4626-aff5-b0f6fe78e04a}</Project>
+      <Name>ChatSystem.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Data\ChatSystem.Data\ChatSystem.Data.csproj">
+      <Project>{7F876F27-12B6-44F9-A0FB-84C8B9EAAB5B}</Project>
+      <Name>ChatSystem.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Data\ChatSystem.Models\ChatSystem.Models.csproj">
+      <Project>{79705d9a-e041-4b6f-9509-a22f155d16d0}</Project>
+      <Name>ChatSystem.Models</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\ChatSystem.Models\ChatSystem.Models.csproj">
-      <Project>{79705d9a-e041-4b6f-9509-a22f155d16d0}</Project>
-      <Name>ChatSystem.Models</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
