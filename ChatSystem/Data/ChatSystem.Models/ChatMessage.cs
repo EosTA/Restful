@@ -2,6 +2,7 @@
 {
     using System;
     using System.ComponentModel.DataAnnotations;
+    using ChatSystem.Common.Constants;
 
     public class ChatMessage
     {
@@ -19,7 +20,7 @@
 
         public virtual User Receiver { get; set; }
 
-        [MaxLength(1000)]
+        [MaxLength(ValidationConstants.MaxMessageLength)]
         public string Message { get; set; }
     }
 }

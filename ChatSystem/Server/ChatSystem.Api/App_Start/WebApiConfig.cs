@@ -1,6 +1,7 @@
 ﻿namespace ChatSystem.Api
 {
     using System.Web.Http;
+    using System.Net.Http.Formatting;
     using Microsoft.Owin.Security.OAuth;
 
     public static class WebApiConfig
