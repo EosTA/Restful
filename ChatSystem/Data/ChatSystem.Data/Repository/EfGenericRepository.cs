@@ -3,10 +3,11 @@
     using System;
     using System.Data.Entity;
     using System.Linq;
+    using Contracts;
 
     public class EfGenericRepository<T> : IRepository<T> where T : class
     {
-        public EfGenericRepository(DbContext context)
+        public EfGenericRepository(IChatSystemDbContext context)
         {
             if (context == null)
             {
@@ -19,7 +20,7 @@
 
         protected IDbSet<T> DbSet { get; set; }
 
-        protected DbContext Context { get; set; }
+        protected IChatSystemDbContext Context { get; set; }
 
         public virtual IQueryable<T> All()
         {

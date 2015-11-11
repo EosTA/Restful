@@ -3,8 +3,9 @@
     using System.Data.Entity;
     using ChatSystem.Models;
     using Microsoft.AspNet.Identity.EntityFramework;
+    using Contracts;
 
-    public class ChatSystemDbContext : IdentityDbContext<User>
+    public class ChatSystemDbContext : IdentityDbContext<User>, IChatSystemDbContext
     {
         public ChatSystemDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)

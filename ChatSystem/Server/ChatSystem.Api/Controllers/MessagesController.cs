@@ -11,9 +11,9 @@
     {
         private readonly IMessagesService messages;
 
-        public MessagesController()
+        public MessagesController(IMessagesService messageServicePassed)
         {
-            this.messages = new MessagesService();
+            this.messages = messageServicePassed;
         }
 
         public IHttpActionResult Get()

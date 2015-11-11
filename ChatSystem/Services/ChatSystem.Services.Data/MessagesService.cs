@@ -13,11 +13,11 @@
         private readonly IRepository<ChatMessage> messages;
         private readonly IRepository<User> users;
 
-        public MessagesService()
+        public MessagesService(IRepository<ChatMessage> messagesRepo,
+            IRepository<User> usersRepo)
         {
-            var db = new ChatSystemDbContext();
-            this.messages = new EfGenericRepository<ChatMessage>(db);
-            this.users = new EfGenericRepository<User>(db);
+            this.messages = messagesRepo;
+            this.users = usersRepo;
         }
 
         public IQueryable<ChatMessage> All(int page = 1, int pageSize = GlobalConstants.DefaultPageSize)
