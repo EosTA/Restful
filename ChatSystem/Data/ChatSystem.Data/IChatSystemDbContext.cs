@@ -1,4 +1,4 @@
-﻿namespace ChatSystem.Data.Contracts
+﻿namespace ChatSystem.Data
 {
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
