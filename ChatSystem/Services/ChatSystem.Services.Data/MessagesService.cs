@@ -1,7 +1,6 @@
-﻿using System;
-
-namespace ChatSystem.Services.Data
+﻿namespace ChatSystem.Services.Data
 {
+    using System;
     using System.Linq;
     using ChatSystem.Data;
     using ChatSystem.Data.Repository;
