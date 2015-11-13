@@ -57,6 +57,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AvatarsService.cs" />
+    <Compile Include="Contracts\IAvatarsService.cs" />
     <Compile Include="Contracts\IMessagesService.cs" />
     <Compile Include="MessagesService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
