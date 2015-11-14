@@ -6,6 +6,7 @@
 
     public class ChatMessage
     {
+        [Key]
         public int Id { get; set; }
 
         public DateTime SentOn { get; set; }
@@ -19,6 +20,8 @@
         public string ReceiverId { get; set; }
 
         public virtual User Receiver { get; set; }
+
+        public bool IsDeleted { get; set; }
 
         [MaxLength(ValidationConstants.MaxMessageLength)]
         public string Message { get; set; }
