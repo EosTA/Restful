@@ -7,6 +7,7 @@
     using ChatSystem.Api.Models.Messages;
     using ChatSystem.Common.Constants;
     using ChatSystem.Services.Data.Contracts;
+    using ChatSystem.Common.Exceptions;
 
     public class MessagesController : ApiController
     {
@@ -32,12 +33,13 @@
                 .Select(MessageResponseModel.FromModel)
                 .ToList();
             }
-            catch (NotSupportedException ex)
+            catch (NotSupportedException e)
             {
-                result.Add(new MessageResponseModel
-                {
-                    Message = "Basi mamata"
-                });
+                AddError(result);
+            }
+            catch (NotCorrectCorrespondentProvidedException e)
+            {
+                AddError(result);
             }
             return this.Ok(result);
         }
@@ -56,12 +58,13 @@
                 .Select(MessageResponseModel.FromModel)
                 .ToList();
             }
-            catch (NotSupportedException ex)
+            catch (NotSupportedException e)
             {
-                result.Add(new MessageResponseModel
-                {
-                    Message = "Basi mamata"
-                });
+                AddError(result);
+            }
+            catch (NotCorrectCorrespondentProvidedException e)
+            {
+                AddError(result);
             }
             return this.Ok(result);
         }
@@ -76,8 +79,13 @@
                 return this.BadRequest(this.ModelState);
             }
 
+            if (model == null)
+            {
+                return this.BadRequest();
+            }
+
             this.messages.Add(model.Message, sender, model.Receiver);
-            return this.Ok();
+            return this.Ok(ResponseMessagesInMessageController.MessageInsertedCorrectly);
         }
 
         [HttpPut]
@@ -89,23 +97,16 @@
             {
                 return this.BadRequest();
             }
-
             var asker = this.User.Identity.Name;
-            var message = this.messages.GetMessage(messageId).FirstOrDefault();
 
-            if (message.Sender.UserName != asker)
-            {
-                return this.BadRequest();
-            }
-
-            var result = this.messages.ChangeMessage(messageId, model.IsChangingDate, model.Message);
+            var result = this.messages.ChangeMessage(messageId, model.IsChangingDate, model.Message, asker);
 
             if (result)
             {
-                return this.Ok();
+                return this.Ok(ResponseMessagesInMessageController.MessageEditedCorrectly);
             }
 
-            return this.BadRequest();
+            return this.BadRequest(ErrorsInMessageController.ErrorActionNotTaken);
         }
 
         [HttpPut]
@@ -119,10 +120,35 @@
 
             if (result)
             {
-                return this.Ok();
+                return this.Ok(ResponseMessagesInMessageController.MessagesUpdatedDateCorrectly);
             }
 
-            return this.BadRequest();
+            return this.BadRequest(ErrorsInMessageController.ErrorActionNotTaken);
+        }
+
+        [HttpDelete]
+        [Route("api/messages/{messageId}")]
+        [Authorize]
+        public IHttpActionResult Delete(int messageId)
+        {
+            var asker = this.User.Identity.Name;
+
+            var result = this.messages.DeleteMessage(messageId, asker);
+
+            if (result)
+            {
+                return this.Ok(ResponseMessagesInMessageController.MessageDeletedCorrectly);
+            }
+
+            return this.BadRequest(ErrorsInMessageController.ErrorActionNotTaken);
+        }
+
+        private void AddError(List<MessageResponseModel> result)
+        {
+            result.Add(new MessageResponseModel
+            {
+                Message = ErrorsInMessageController.ErrorNoMessages
+            });
         }
     }
 }

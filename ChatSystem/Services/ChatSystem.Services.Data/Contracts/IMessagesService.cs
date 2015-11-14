@@ -12,8 +12,10 @@
 
         IQueryable<ChatMessage> GetMessage(int id);
 
-        bool ChangeMessage(int messageId, bool isChangingDate, string newMessage);
+        bool ChangeMessage(int messageId, bool isChangingDate, string newMessage, string asker);
 
         bool SetReadToAll(string asker, string correspondent);
+
+        bool DeleteMessage(int id, string asker);
     }
 }

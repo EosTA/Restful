@@ -21,6 +21,8 @@
 
         public virtual User Receiver { get; set; }
 
+        public bool IsDeleted { get; set; }
+
         [MaxLength(ValidationConstants.MaxMessageLength)]
         public string Message { get; set; }
     }

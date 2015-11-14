@@ -2,11 +2,11 @@
 {
     using System;
     using System.Linq;
-    using ChatSystem.Data;
     using ChatSystem.Data.Repository;
     using ChatSystem.Common.Constants;
     using ChatSystem.Models;
     using ChatSystem.Services.Data.Contracts;
+    using Common.Exceptions;
 
     public class MessagesService : IMessagesService
     {
@@ -30,8 +30,14 @@
                 .All()
                 .FirstOrDefault(user => user.UserName == requestAskPerson);
 
+            if(requestTaker == null || requestAsker == null)
+            {
+                throw new NotCorrectCorrespondentProvidedException();
+            }
+
             var result = this.messages
                 .All()
+                .Where(message => !message.IsDeleted)
                 .Where(message =>
                 (message.ReceiverId == requestTaker.Id && message.Sender.Id == requestAsker.Id) ||
                 (message.ReceiverId == requestAsker.Id && message.Sender.Id == requestTaker.Id))
@@ -64,7 +70,7 @@
             this.messages.SaveChanges();
         }
 
-        public bool ChangeMessage(int messageId, bool isChangingDate, string newMessage)
+        public bool ChangeMessage(int messageId, bool isChangingDate, string newMessage, string asker)
         {
             var message = this.GetMessage(messageId).FirstOrDefault();
 
@@ -72,6 +78,13 @@
             {
                 return false;
             }
+
+            if (message.Sender.UserName != asker)
+            {
+                return false;
+            }
+
+
 
             if (isChangingDate)
             {
@@ -89,7 +102,7 @@
         {
             var result = this.messages
                 .All()
-                .Where(message => message.Id == id);
+                .Where(message => message.Id == id && !message.IsDeleted);
 
             return result;
         }
@@ -104,7 +117,7 @@
                 .All()
                 .FirstOrDefault(user => user.UserName == correspondent);
 
-            if(receiverUser == null || currentUser == null)
+            if (receiverUser == null || currentUser == null)
             {
                 return false;
             }
@@ -116,7 +129,7 @@
                 (message.ReceiverId == receiverUser.Id && message.Sender.Id == currentUser.Id))
                 .ToList();
 
-            if(result.Count == 0)
+            if (result.Count == 0)
             {
                 return false;
             }
@@ -127,6 +140,26 @@
             {
                 singleMessage.ReadOn = date;
             }
+            this.messages.SaveChanges();
+
+            return true;
+        }
+
+        public bool DeleteMessage(int id, string asker)
+        {
+            var message = this.GetMessage(id).FirstOrDefault();
+
+            if (message == null)
+            {
+                return false;
+            }
+
+            if (message.Sender.UserName != asker)
+            {
+                return false;
+            }
+
+            message.IsDeleted = true;
             this.messages.SaveChanges();
 
             return true;
