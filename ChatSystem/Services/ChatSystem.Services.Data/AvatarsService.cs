@@ -5,9 +5,13 @@
     using ChatSystem.Data.Repository;
     using ChatSystem.Models;
     using ChatSystem.Services.Data.Contracts;
+    using Spring.IO;
+    using Spring.Social.Dropbox.Api;
+    using System;
+    using System.IO;
     using System.Linq;
 
-    class AvatarsService : IAvatarsService
+    public class AvatarsService : IAvatarsService
     {
         private readonly IRepository<User> users;
 
@@ -16,12 +20,27 @@
             this.users = usersRepo;
         }
 
-        public void Post(string avatarUrl, string username)
+        public DropboxFile Get(string username)
+        {
+            var user = this.users.All().FirstOrDefault(u => u.UserName == username);
+            
+            var dropboxClient = new DropBoxController(AuthorizationConstants.DropboxAppKey, AuthorizationConstants.DropboxAppSecret);
+            var avatarUrl = user.AvatarUrl;
+
+            var file = dropboxClient.GetFile(avatarUrl);
+
+            return file;
+        }
+
+        public void Post(IResource resource, string username)
         {
             var dropboxClient = new DropBoxController(AuthorizationConstants.DropboxAppKey, AuthorizationConstants.DropboxAppSecret);
+
+            string url = dropboxClient.Upload(resource, Guid.NewGuid() + ".bmp");
+
             this.users.All()
                 .FirstOrDefault(u => u.UserName == username)
-                .AvatarUrl = avatarUrl;
+                .AvatarUrl = "https://www.dropbox.com/home/Apps/ChatSystem?preview=" + url;
         }
 
         public void Delete(string username)

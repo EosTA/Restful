@@ -1,15 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace ChatSystem.Services.Data.Contracts
+﻿namespace ChatSystem.Services.Data.Contracts
 {
+    using Spring.IO;
+using Spring.Social.Dropbox.Api;
+
     public interface IAvatarsService
     {
-        void Post(string avatarUrl, string username);
+        void Post(IResource resource, string username);
 
         void Delete(string username);
+
+        DropboxFile Get(string username);
     }
 }

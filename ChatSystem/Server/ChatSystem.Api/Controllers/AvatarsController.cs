@@ -1,14 +1,16 @@
-﻿using ChatSystem.Services.Data.Contracts;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Http;
-
-namespace ChatSystem.Api.Controllers
+﻿namespace ChatSystem.Api.Controllers
 {
+    using ChatSystem.Services.Data.Contracts;
+    using Spring.IO;
+    using Spring.Social.Dropbox.Api;
+    using Spring.Social.Dropbox.Connect;
+    using System;
+    using System.Net.Http;
+    using System.Web.Http;
+    using System.Web.Http.Cors;
+
     [Authorize]
-    [RoutePrefix("api/avatar")]
+    [EnableCors("*", "*", "*")]
     public class AvatarsController : ApiController
     {
         private readonly IAvatarsService avatars;
@@ -18,11 +20,41 @@ namespace ChatSystem.Api.Controllers
             this.avatars = messageServicePassed;
         }
 
-        public IHttpActionResult Post(string avatarUrl)
+        [EnableCors("*", "*", "*")]
+        public IHttpActionResult Get()
         {
             var currentUsername = this.User.Identity.Name;
-            avatars.Post(avatarUrl, currentUsername);
-            return this.Ok("Avatar successfully added.");
+            var file = this.avatars.Get(currentUsername);
+            return this.Ok(file);
+        }
+          
+        [EnableCors("*","*","*")]
+        public IHttpActionResult Post()
+        {
+            try
+            {
+                Request.Content.ReadAsMultipartAsync<MultipartMemoryStreamProvider>(new MultipartMemoryStreamProvider()).ContinueWith((task) =>
+                {
+                    MultipartMemoryStreamProvider provider = task.Result;
+                    var currentUsername = this.User.Identity.Name; // TODO
+
+                    foreach (HttpContent content in provider.Contents)
+                    {
+                        var res = new ByteArrayResource(content.ReadAsByteArrayAsync().Result);
+
+                        //Entry uploadFileEntry = dropbox.UploadFileAsync(
+                        //res, "/plane.jpg", true, null, CancellationToken.None).Result;
+                        this.avatars.Post(res, currentUsername);
+                    }
+                });
+
+
+                return this.Ok("Avatar successfully added.");
+            }
+            catch (Exception)
+            {
+                return this.BadRequest();
+            }
         }
 
         public IHttpActionResult Delete(string avatarUrl)
