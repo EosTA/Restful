@@ -6,6 +6,7 @@
 
     public class ChatMessage
     {
+        [Key]
         public int Id { get; set; }
 
         public DateTime SentOn { get; set; }

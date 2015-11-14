@@ -40,6 +40,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Constants\AuthorizationConstants.cs" />
+    <Compile Include="Constants\ErrorsInMessageController.cs" />
     <Compile Include="Constants\GlobalConstants.cs" />
     <Compile Include="Constants\ValidationConstants.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

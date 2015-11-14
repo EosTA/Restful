@@ -209,6 +209,7 @@
     <Compile Include="Models\AccountBindingModels.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
+    <Compile Include="Models\Messages\EditMessageRequestModel.cs" />
     <Compile Include="Models\Messages\MessageResponseModel.cs" />
     <Compile Include="Models\Messages\SaveMessageRequestModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
