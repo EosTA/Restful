@@ -1,6 +1,7 @@
 ﻿namespace ChatSystem.Api.Common
 {
 
+    using ChatSystem.Common.Constants;
     using Spring.IO;
     using Spring.Social.Dropbox.Api;
     using Spring.Social.Dropbox.Connect;
@@ -38,7 +39,8 @@
             //OAuthToken oauthAccessToken = LoadOAuthToken();
 
             // Login in Dropbox
-            IDropbox dropbox = dropboxServiceProvider.GetApi("4waxwixx5bfr5gvf", "52rvk5tjef0dz2p");
+            IDropbox dropbox = dropboxServiceProvider
+                .GetApi(AuthorizationConstants.DropBoxOAuthAccessTokenValue, AuthorizationConstants.DropBoxOAuthAccessTokenSecret);
 
             // Display user name (from his profile)
             DropboxProfile profile = dropbox.GetUserProfileAsync().Result;
@@ -57,14 +59,15 @@
 
         public DropboxFile GetFile(string fileUrl)
         {
-            if (!File.Exists(OAuthTokenFileName))
-            {
-                AuthorizeAppOAuth(dropboxServiceProvider);
-            }
+            //if (!File.Exists(OAuthTokenFileName))
+            //{
+            //    AuthorizeAppOAuth(dropboxServiceProvider);
+            //}
 
-            OAuthToken oauthAccessToken = LoadOAuthToken();
+            //OAuthToken oauthAccessToken = LoadOAuthToken();
 
-            var serviceProvider = dropboxServiceProvider.GetApi(oauthAccessToken.Value, oauthAccessToken.Secret);
+            var serviceProvider = dropboxServiceProvider
+                .GetApi(AuthorizationConstants.DropBoxOAuthAccessTokenValue, AuthorizationConstants.DropBoxOAuthAccessTokenSecret);
             var file = serviceProvider.DownloadFileAsync(fileUrl).Result;
             return file;
         }

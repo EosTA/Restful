@@ -20,16 +20,21 @@
             this.users = usersRepo;
         }
 
-        public DropboxFile Get(string username)
+        public FileStream Get(string username)
         {
             var user = this.users.All().FirstOrDefault(u => u.UserName == username);
 
             var dropboxClient = new DropBoxController(AuthorizationConstants.DropboxAppKey, AuthorizationConstants.DropboxAppSecret);
             var avatarUrl = user.AvatarUrl;
 
-            var file = dropboxClient.GetFile(avatarUrl);
+            var dropboxFile = dropboxClient.GetFile(avatarUrl);
 
-            return file;
+            var extension = dropboxFile.Metadata.MimeType.Split('-')[2];
+            var tempStorePath= username + '.' + extension;
+            
+            File.WriteAllBytes(tempStorePath, dropboxFile.Content);
+
+            return File.Open(tempStorePath,FileMode.Open);
         }
 
         public void Post(IResource resource, string username)
@@ -38,9 +43,9 @@
 
             var dropboxClient = new DropBoxController(AuthorizationConstants.DropboxAppKey, AuthorizationConstants.DropboxAppSecret);
 
-            string url = dropboxClient.Upload(resource, Guid.NewGuid() + ".bmp");
+            string storeUrl = dropboxClient.Upload(resource, Guid.NewGuid() + ".bmp");
 
-            user.AvatarUrl = "https://www.dropbox.com/home/Apps/ChatSystem?preview=" + url;
+            user.AvatarUrl = storeUrl;
             this.users.SaveChanges();
         }
 
