@@ -23,7 +23,7 @@
         public DropboxFile Get(string username)
         {
             var user = this.users.All().FirstOrDefault(u => u.UserName == username);
-            
+
             var dropboxClient = new DropBoxController(AuthorizationConstants.DropboxAppKey, AuthorizationConstants.DropboxAppSecret);
             var avatarUrl = user.AvatarUrl;
 
@@ -34,13 +34,14 @@
 
         public void Post(IResource resource, string username)
         {
+            var user = this.users.All().FirstOrDefault(u => u.UserName == username);
+
             var dropboxClient = new DropBoxController(AuthorizationConstants.DropboxAppKey, AuthorizationConstants.DropboxAppSecret);
 
             string url = dropboxClient.Upload(resource, Guid.NewGuid() + ".bmp");
 
-            this.users.All()
-                .FirstOrDefault(u => u.UserName == username)
-                .AvatarUrl = "https://www.dropbox.com/home/Apps/ChatSystem?preview=" + url;
+            user.AvatarUrl = "https://www.dropbox.com/home/Apps/ChatSystem?preview=" + url;
+            this.users.SaveChanges();
         }
 
         public void Delete(string username)

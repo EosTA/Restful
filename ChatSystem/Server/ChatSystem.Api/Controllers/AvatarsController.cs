@@ -15,9 +15,9 @@
     {
         private readonly IAvatarsService avatars;
 
-        public AvatarsController(IAvatarsService messageServicePassed)
+        public AvatarsController(IAvatarsService avatarServicePassed)
         {
-            this.avatars = messageServicePassed;
+            this.avatars = avatarServicePassed;
         }
 
         [EnableCors("*", "*", "*")]
@@ -27,28 +27,30 @@
             var file = this.avatars.Get(currentUsername);
             return this.Ok(file);
         }
-          
-        [EnableCors("*","*","*")]
+
+        [EnableCors("*", "*", "*")]
         public IHttpActionResult Post()
         {
+            ByteArrayResource res = null;
+            var currentUsername = this.User.Identity.Name; // TODO
+
             try
             {
                 Request.Content.ReadAsMultipartAsync<MultipartMemoryStreamProvider>(new MultipartMemoryStreamProvider()).ContinueWith((task) =>
                 {
                     MultipartMemoryStreamProvider provider = task.Result;
-                    var currentUsername = this.User.Identity.Name; // TODO
 
                     foreach (HttpContent content in provider.Contents)
                     {
-                        var res = new ByteArrayResource(content.ReadAsByteArrayAsync().Result);
+                        res = new ByteArrayResource(content.ReadAsByteArrayAsync().Result);
 
                         //Entry uploadFileEntry = dropbox.UploadFileAsync(
                         //res, "/plane.jpg", true, null, CancellationToken.None).Result;
-                        this.avatars.Post(res, currentUsername);
                     }
                 });
 
 
+                this.avatars.Post(res, currentUsername);
                 return this.Ok("Avatar successfully added.");
             }
             catch (Exception)
