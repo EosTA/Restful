@@ -7,6 +7,7 @@
     using System.Collections.Generic;
     using ChatSystem.Models;
     using System;
+    using Controllers;
 
     public static class TestObjectFactory
     {
@@ -39,6 +40,8 @@
 
         public static IMessagesService GetMessagesService()
         {
+
+
             var messagesService = new Mock<IMessagesService>();
             messagesService.Setup(m => m.All(
                 It.IsAny<string>(),
@@ -47,8 +50,8 @@
                 It.IsAny<int>()
                 ))
                 .Returns(messages);
-            messagesService.Setup(m => m.DeleteMessage(6, "User4")).Returns(true);
-            messagesService.Setup(m => m.DeleteMessage(6, "User3")).Returns(false);
+
+            messagesService.Setup(m => m.DeleteMessage(5, "User5")).Returns(true);
             return messagesService.Object;
         }
     }

@@ -127,6 +127,8 @@
     <Compile Include="RouteTests\MessagesRoutesTests.cs" />
     <Compile Include="TestInitializator.cs" />
     <Compile Include="TestObjectFactory.cs" />
+    <Compile Include="TestObject\MockedIIdentity.cs" />
+    <Compile Include="TestObject\MockedIPrincipal.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
