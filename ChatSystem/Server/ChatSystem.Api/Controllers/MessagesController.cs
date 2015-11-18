@@ -30,7 +30,7 @@
             {
                 result = this.messages
                 .All(username, thatPerson)
-                .Select(MessageResponseModel.FromModel)
+                .Select(MessageResponseModel.FromModel(thatPerson))
                 .ToList();
             }
             catch (NotSupportedException e)
@@ -55,7 +55,7 @@
             {
                 result = this.messages
                 .All(username, thatPerson, page, pageSize)
-                .Select(MessageResponseModel.FromModel)
+                .Select(MessageResponseModel.FromModel(thatPerson))
                 .ToList();
             }
             catch (NotSupportedException e)

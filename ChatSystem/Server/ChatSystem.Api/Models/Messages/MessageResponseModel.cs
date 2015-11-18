@@ -12,17 +12,17 @@
 
         public DateTime SentOn { get; set; }
 
-        public DateTime? ReadOn { get; set; }
+        public int IsMyMessage { get; set; }
 
-        public static Expression<Func<ChatMessage, MessageResponseModel>> FromModel
+        public static Expression<Func<ChatMessage, MessageResponseModel>> FromModel(string senderUsername)
         {
-            get
+            return message => new MessageResponseModel
             {
-                return message => new MessageResponseModel
-                {
-                    Message = message.Message
-                };
-            }
+                Id = message.Id,
+                Message = message.Message,
+                SentOn = message.SentOn,
+                IsMyMessage = message.Sender.UserName == senderUsername ? 1 : 0
+            };
         }
     }
 }
