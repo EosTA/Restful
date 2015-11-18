@@ -13,6 +13,8 @@
 
         public virtual IDbSet<ChatMessage> ChatMessages { get; set; } 
 
+        public virtual IDbSet<Presence> Presences { get; set; }
+
         public static ChatSystemDbContext Create()
         {
             return new ChatSystemDbContext();

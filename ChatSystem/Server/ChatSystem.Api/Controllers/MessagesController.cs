@@ -97,6 +97,8 @@
                 queue.Post(sender);
             }
 
+            this.presences.UpdatePresence(model.Receiver);
+
             return this.Ok(ResponseMessagesInMessageController.MessageInsertedCorrectly);
         }
 
