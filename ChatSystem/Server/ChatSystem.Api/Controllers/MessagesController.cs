@@ -8,6 +8,8 @@
     using ChatSystem.Common.Constants;
     using ChatSystem.Services.Data.Contracts;
     using ChatSystem.Common.Exceptions;
+    using IronSharp.IronMQ;
+    using Providers;
 
     public class MessagesController : ApiController
     {
@@ -85,6 +87,15 @@
             }
 
             this.messages.Add(model.Message, sender, model.Receiver);
+
+            if (GlobalConstants.IsNotificationEnabled)
+            {
+
+                var notificator = Notificator.GetNotificator();
+                QueueClient queue = notificator.Queue(GlobalConstants.NotificationChanel);
+                queue.Post(sender);
+            }
+
             return this.Ok(ResponseMessagesInMessageController.MessageInsertedCorrectly);
         }
 
