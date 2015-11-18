@@ -1,14 +1,11 @@
 ﻿namespace ChatSystem.Services.Data
 {
-    using System;
     using System.Linq;
     using ChatSystem.Data.Repository;
-    using ChatSystem.Common.Constants;
     using ChatSystem.Models;
-    using ChatSystem.Services.Data.Contracts;
-    using Common.Exceptions;
+    using Contracts;
 
-    public class UserService
+    public class UserService : IUserService
     {
         private readonly IRepository<ChatMessage> messages;
         private readonly IRepository<User> users;

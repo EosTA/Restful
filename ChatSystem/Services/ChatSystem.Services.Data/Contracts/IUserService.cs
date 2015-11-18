@@ -1,4 +1,4 @@
-﻿namespace hatSystem.Services.Data.Contracts
+﻿namespace ChatSystem.Services.Data.Contracts
 {
     using System.Linq;
     using ChatSystem.Models;
