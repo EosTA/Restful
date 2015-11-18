@@ -11,5 +11,7 @@
         public const string NotificationToken = "qeIyppmqyMPBjqE3Q7yA";
 
         public const string NotificationChanel = "ChatSystemChanel";
+
+        public const int PresenceMinutes = 10;
     }
 }

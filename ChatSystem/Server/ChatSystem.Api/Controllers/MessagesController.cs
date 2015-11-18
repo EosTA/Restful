@@ -14,10 +14,12 @@
     public class MessagesController : ApiController
     {
         private readonly IMessagesService messages;
+        private readonly IPresenceService presences;
 
-        public MessagesController(IMessagesService messageServicePassed)
+        public MessagesController(IMessagesService messageServicePassed, IPresenceService presenceServicePassed)
         {
             this.messages = messageServicePassed;
+            this.presences = presenceServicePassed;
         }
 
         [HttpGet]
@@ -88,9 +90,8 @@
 
             this.messages.Add(model.Message, sender, model.Receiver);
 
-            if (GlobalConstants.IsNotificationEnabled)
+            if (GlobalConstants.IsNotificationEnabled && this.presences.CheckPresence(model.Receiver))
             {
-
                 var notificator = Notificator.GetNotificator();
                 QueueClient queue = notificator.Queue(GlobalConstants.NotificationChanel);
                 queue.Post(sender);
