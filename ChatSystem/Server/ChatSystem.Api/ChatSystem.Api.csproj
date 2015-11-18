@@ -229,15 +229,16 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AvatarsController.cs" />
     <Compile Include="Controllers\MessagesController.cs" />
+    <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountBindingModels.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
-    <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\Messages\EditMessageRequestModel.cs" />
     <Compile Include="Models\Messages\MessageResponseModel.cs" />
     <Compile Include="Models\Messages\SaveMessageRequestModel.cs" />
+    <Compile Include="Models\UserResponseModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Providers\ApplicationOAuthProvider.cs" />
     <Compile Include="Results\ChallengeResult.cs" />

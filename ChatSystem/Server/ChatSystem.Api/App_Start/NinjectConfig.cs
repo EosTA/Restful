@@ -11,10 +11,10 @@ namespace ChatSystem.Api.App_Start
     using Ninject;
     using Ninject.Extensions.Conventions;
     using Ninject.Web.Common;
-    using Services.Data.Contracts;
-    using Services.Data;
     using Data.Repository;
     using Data;
+    using Services.Data.Contracts;
+    using Services.Data;
 
     public static class NinjectConfig
     {
