@@ -74,7 +74,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AvatarsService.cs" />
-    <Compile Include="Common\DropBoxController.cs" />
+    <Compile Include="Common\DropBoxClient.cs" />
     <Compile Include="Contracts\IAvatarsService.cs" />
     <Compile Include="Contracts\IMessagesService.cs" />
     <Compile Include="Contracts\IUserService.cs" />

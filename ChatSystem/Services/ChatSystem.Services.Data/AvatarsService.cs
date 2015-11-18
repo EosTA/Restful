@@ -24,7 +24,7 @@
         {
             var user = this.users.All().FirstOrDefault(u => u.UserName == username);
 
-            var dropboxClient = new DropBoxController(AuthorizationConstants.DropboxAppKey, AuthorizationConstants.DropboxAppSecret);
+            var dropboxClient = new DropBoxClient(AuthorizationConstants.DropboxAppKey, AuthorizationConstants.DropboxAppSecret);
             var avatarUrl = user.AvatarUrl;
 
             var dropboxFile = dropboxClient.GetFile(avatarUrl);
@@ -41,7 +41,7 @@
         {
             var user = this.users.All().FirstOrDefault(u => u.UserName == username);
 
-            var dropboxClient = new DropBoxController(AuthorizationConstants.DropboxAppKey, AuthorizationConstants.DropboxAppSecret);
+            var dropboxClient = new DropBoxClient(AuthorizationConstants.DropboxAppKey, AuthorizationConstants.DropboxAppSecret);
 
             string storeUrl = dropboxClient.Upload(resource, Guid.NewGuid() + ".bmp");
 
