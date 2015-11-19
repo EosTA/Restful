@@ -40,7 +40,6 @@
 
         public static IMessagesService GetMessagesService()
         {
-
             var messagesService = new Mock<IMessagesService>();
             messagesService.Setup(m => m.All(
                 It.IsAny<string>(),
@@ -49,10 +48,18 @@
                 It.IsAny<int>()
                 ))
                 .Returns(messages);
-
+            messagesService.Setup(m => m.GetMessage(5)).Returns(messages.Where(m => m.Id == 5));
             messagesService.Setup(m => m.DeleteMessage(5, "User5")).Returns(true);
             messagesService.Setup(m => m.SetReadToAll("User5", "User1")).Returns(true);
             return messagesService.Object;
         }
+
+        public static IPresenceService GetPresenceService()
+        {
+            var presenceService = new Mock<IPresenceService>();
+            presenceService.Setup(m => m.UpdatePresence("User5"));
+            return presenceService.Object;
+        }
+        
     }
 }
