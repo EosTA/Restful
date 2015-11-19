@@ -41,7 +41,6 @@
         public static IMessagesService GetMessagesService()
         {
 
-
             var messagesService = new Mock<IMessagesService>();
             messagesService.Setup(m => m.All(
                 It.IsAny<string>(),
@@ -52,6 +51,7 @@
                 .Returns(messages);
 
             messagesService.Setup(m => m.DeleteMessage(5, "User5")).Returns(true);
+            messagesService.Setup(m => m.SetReadToAll("User5", "User1")).Returns(true);
             return messagesService.Object;
         }
     }

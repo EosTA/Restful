@@ -10,18 +10,29 @@ namespace ChatSystem.Api.Tests.ControllerTests
     using ChatSystem.Api.Tests.TestObject;
     using System.Net;
     using System.Net.Http;
+    using Services.Data.Contracts;
+    using ChatSystem.Common.Constants;
 
     [TestClass]
     public class MessagesControllerTests
     {
+        private IMessagesService messageService;
+        private MessagesController controller;
+
+        [TestInitialize]
+        public void Init()
+        {
+            this.messageService = TestObjectFactory.GetMessagesService();
+            this.controller = new MessagesController(this.messageService);
+        }
+
         [TestMethod]
         public void GetMethodShouldHaveAuthorizeAttribute()
         {
-            var messageService = TestObjectFactory.GetMessagesService();
 
             MyWebApi
                 .Controller<MessagesController>()
-                .WithResolvedDependencyFor(messageService)
+                .WithResolvedDependencyFor(this.messageService)
                 .Calling(m => m.Get("User1"))
                 .ShouldHave()
                 .ActionAttributes(attr => attr.ContainingAttributeOfType<AuthorizeAttribute>());
@@ -34,7 +45,7 @@ namespace ChatSystem.Api.Tests.ControllerTests
 
             MyWebApi
                 .Controller<MessagesController>()
-                .WithResolvedDependencyFor(messageService)
+                .WithResolvedDependencyFor(this.messageService)
                 .Calling(m => m.Get("User1"))
                 .ShouldReturn()
                 .Ok();
@@ -43,23 +54,42 @@ namespace ChatSystem.Api.Tests.ControllerTests
         [TestMethod]
         public void DeleteMessagesShouldReturnCorrectMessageIfOk()
         {
-            var messageService = TestObjectFactory.GetMessagesService();
-
-            var controller = new MessagesController(messageService);
-            controller.User = new MockedIPrinciple();
+            this.controller.User = new MockedIPrinciple();
             var result = controller.Delete(5) as OkNegotiatedContentResult<string>;
-            var expected = "Your message has been deleted";
+            var expected = ResponseMessagesInMessageController.MessageDeletedCorrectly;
             Assert.AreEqual(expected, result.Content);
         }
 
         [TestMethod]
         public void DeleteMessagesShouldReturnCorrectErrorMessageWhenNoUserIsProvided()
         {
-            var messageService = TestObjectFactory.GetMessagesService();
+            var result = this.controller.Delete(5) as BadRequestErrorMessageResult;
+            var expected = ErrorsInMessageController.ErrorActionNotTaken;
+            Assert.AreEqual(expected, result.Message);
 
-            var controller = new MessagesController(messageService);
-            var result = controller.Delete(5) as BadRequestErrorMessageResult;
-            var expected = "There is some problem with your request";
+        }
+
+        [TestMethod]
+        public void PutMessageWithCorrectCorrespondantAndUserShouldReturnCorrectMessage()
+        {
+            var asker = new MockedIPrinciple();
+            var correspondant = new SecondMockedIPrinciple();
+
+            this.controller.User = asker;
+            var result = this.controller.Put(correspondant.Identity.Name) as OkNegotiatedContentResult<string>;
+            var expected = ResponseMessagesInMessageController.MessagesUpdatedDateCorrectly;
+            Assert.AreEqual(expected, result.Content);
+
+        }
+
+        [TestMethod]
+        public void PutMessageWithIncorrectCorrespondantShouldReturnCorrectMessage()
+        {
+            var asker = new MockedIPrinciple();
+
+            this.controller.User = asker;
+            var result = this.controller.Put("Pesho") as BadRequestErrorMessageResult;
+            var expected = ErrorsInMessageController.ErrorActionNotTaken;
             Assert.AreEqual(expected, result.Message);
 
         }
