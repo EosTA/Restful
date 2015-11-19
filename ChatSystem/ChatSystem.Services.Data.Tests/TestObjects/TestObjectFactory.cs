@@ -2,6 +2,7 @@
 {
     using System;
     using ChatSystem.Models;
+    using System.Linq;
 
     public static class TestObjectFactory
     {
@@ -31,6 +32,7 @@
             {
                 var user = new User()
                 {
+                    Id = i.ToString(),
                     UserName = "Username" + i,
                     FirstName = "User" + i,
                     LastName = "User lastName"  + i
@@ -40,6 +42,27 @@
             }
 
             return repository;
+        }
+
+        public static InMemoryRepository<Presence> GetPresenceRepository()
+        {
+            var presenceRepo = new InMemoryRepository<Presence>();
+            var userRepo = GetUsersRepository();
+            var users = userRepo.All().ToList();
+
+            foreach (var user in users)
+            {
+                var presence = new Presence
+                {
+                    RegisteredOn = DateTime.Now,
+                    User = user,
+                    UserId = user.Id
+                };
+
+                presenceRepo.Add(presence);
+            }
+
+            return presenceRepo;
         }
     }
 }

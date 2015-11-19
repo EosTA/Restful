@@ -30,7 +30,7 @@
         {
             MyWebApi
                 .Routes()
-                .ShouldMap("api/messages/User3/1/1")
+                .ShouldMap("api/messages/User1/1/1")
                 .To<MessagesController>(m => m.Get("User1"));
         }
 
