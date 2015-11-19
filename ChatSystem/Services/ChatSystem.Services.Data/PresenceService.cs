@@ -2,10 +2,14 @@
 {
     using System;
     using System.Linq;
+
     using ChatSystem.Data.Repository;
-    using ChatSystem.Services.Data.Contracts;
-    using Models;
+
     using Common.Constants;
+
+    using Data.Contracts;
+
+    using Models;
 
     public class PresenceService : IPresenceService
     {
@@ -40,14 +44,15 @@
                 .Where(p => p.User.Id == userFromDb.Id)
                 .FirstOrDefault();
 
-            if(result != null)
+            if (result != null)
             {
-                TimeSpan difference = DateTime.Now - result.RegisteredOn;
-                if(difference.TotalMinutes < GlobalConstants.PresenceMinutes)
+                var difference = DateTime.Now - result.RegisteredOn;
+                if (difference.TotalMinutes < GlobalConstants.PresenceMinutes)
                 {
                     return true;
                 }
             }
+
             return false;     
         }
 
@@ -72,7 +77,7 @@
             }
             else
             {
-                RegisterPresence(userFromDb);
+                this.RegisterPresence(userFromDb);
             }
         }
     }

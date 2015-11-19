@@ -1,9 +1,10 @@
 ﻿namespace ChatSystem.Services.Data.Tests.TestObjects
 {
     using System;
-    using System.Linq;
-    using ChatSystem.Data.Repository;
     using System.Collections.Generic;
+    using System.Linq;
+
+    using ChatSystem.Data.Repository;
 
     public class InMemoryRepository<T> : IRepository<T>
         where T : class
@@ -19,11 +20,14 @@
         }
 
         public IList<T> AttachedEntities { get; set; }
-        public IList<T> DetachedEntities { get; set; }
-        public IList<T> UpdatedEntities { get; set; }
-        public bool isDisposed { get; set; }
-        public int NumberOfSavedChanges { get; set; }
 
+        public IList<T> DetachedEntities { get; set; }
+
+        public IList<T> UpdatedEntities { get; set; }
+
+        public bool IsDisposed { get; set; }
+
+        public int NumberOfSavedChanges { get; set; }
 
         public void Add(T entity)
         {
@@ -43,10 +47,11 @@
 
         public void Delete(object id)
         {
-            if (this.data.Count() == 0)
+            if (this.data.Count == 0)
             {
                 throw new InvalidOperationException("Repository data is missing!");
             }
+
             this.data.Remove(this.data[0]);
         }
 
@@ -56,6 +61,7 @@
             {
                 throw new InvalidOperationException("Entity to delete is missing!");
             }
+
             this.data.Remove(entity);
         }
 
@@ -66,7 +72,7 @@
 
         public void Dispose()
         {
-            this.isDisposed = true;
+            this.IsDisposed = true;
         }
 
         public T GetById(object id)
@@ -75,6 +81,7 @@
             {
                 throw new InvalidOperationException("Searched data is missing!");
             }
+
             return this.data[0];
         }
 

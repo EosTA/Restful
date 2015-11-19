@@ -5,7 +5,7 @@
 
     public class Notificator
     {
-        //IronMqRestClient
+        // IronMqRestClient
         private static IronMqRestClient client;
 
         private Notificator()
@@ -19,6 +19,7 @@
             {
                 new Notificator();
             }
+
             return client;
         }
     }

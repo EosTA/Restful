@@ -4,12 +4,17 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Web.Http;
-    using ChatSystem.Api.Models.Messages;
+
     using ChatSystem.Common.Constants;
-    using ChatSystem.Services.Data.Contracts;
     using ChatSystem.Common.Exceptions;
+
     using IronSharp.IronMQ;
+
+    using Models.Messages;
+
     using Providers;
+
+    using Services.Data.Contracts;
 
     public class MessagesController : ApiController
     {
@@ -41,14 +46,15 @@
                 .Select(MessageResponseModel.FromModel(thatPerson))
                 .ToList();
             }
-            catch (NotSupportedException e)
+            catch (NotSupportedException)
             {
-                AddError(result);
+                this.AddError(result);
             }
-            catch (NotCorrectCorrespondentProvidedException e)
+            catch (NotCorrectCorrespondentProvidedException)
             {
-                AddError(result);
+                this.AddError(result);
             }
+
             this.presences.UpdatePresence(thatPerson);
 
             return this.Ok(result);
@@ -68,13 +74,13 @@
                 .Select(MessageResponseModel.FromModel(thatPerson))
                 .ToList();
             }
-            catch (NotSupportedException e)
+            catch (NotSupportedException)
             {
-                AddError(result);
+                this.AddError(result);
             }
-            catch (NotCorrectCorrespondentProvidedException e)
+            catch (NotCorrectCorrespondentProvidedException)
             {
-                AddError(result);
+                this.AddError(result);
             }
 
             this.presences.UpdatePresence(thatPerson);
@@ -120,6 +126,7 @@
             {
                 return this.BadRequest();
             }
+
             var asker = this.User.Identity.Name;
 
             var result = this.messages.ChangeMessage(messageId, model.IsChangingDate, model.Message, asker);

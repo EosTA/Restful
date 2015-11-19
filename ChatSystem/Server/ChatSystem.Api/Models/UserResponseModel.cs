@@ -6,12 +6,6 @@
 
     public class UserResponseModel
     {
-        public string UserName { get; set; }
-
-        public string FirstName { get; set; }
-
-        public string LastName { get; set; }
-
         public static Expression<Func<User, UserResponseModel>> FromModel
         {
             get
@@ -22,5 +16,11 @@
                 };
             }
         }
+
+        public string UserName { get; set; }
+
+        public string FirstName { get; set; }
+
+        public string LastName { get; set; }
     }
 }

@@ -9,13 +9,13 @@
 
     public class UserController : ApiController
     {
-
         private readonly IUserService users;
 
         public UserController(IUserService usersServicePassed)
         {
             this.users = usersServicePassed;
         }
+
         [HttpGet]
         [Route("api/users")]
         [Authorize]

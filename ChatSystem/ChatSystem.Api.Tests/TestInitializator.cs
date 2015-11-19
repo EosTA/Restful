@@ -1,10 +1,10 @@
-﻿
-namespace ChatSystem.Api.Tests
+﻿namespace ChatSystem.Api.Tests
 {
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
     using ChatSystem.Api;
-    using MyTested.WebApi;
 
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+
+    using MyTested.WebApi;
 
     [TestClass]
     public class TestInitializator

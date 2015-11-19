@@ -1,10 +1,14 @@
 ﻿namespace ChatSystem.Services.Data.Tests
 {
-    using TestObjects;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
     using System.Linq;
-    using Services.Data.Contracts;
+
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+
     using Models;
+
+    using Services.Data.Contracts;
+
+    using TestObjects;
 
     [TestClass]
     public class MessageServiceTests
@@ -19,7 +23,7 @@
         {
             this.messageRepository = TestObjectFactory.GetMessageRepository();
             this.userRepository = TestObjectFactory.GetUsersRepository();
-            this.messageService = new MessagesService(messageRepository,userRepository);
+            this.messageService = new MessagesService(this.messageRepository, this.userRepository);
         }
 
         [TestMethod]
@@ -59,14 +63,14 @@
         public void RepositoryDisposeShouldReturnTrueWhenDisposed()
         {
             this.messageRepository.Dispose();
-            var actual = this.messageRepository.isDisposed;
+            var actual = this.messageRepository.IsDisposed;
             Assert.AreEqual(true, actual);
         }
 
         [TestMethod]
         public void RepositoryGetShouldReturnNotNullableValue()
         {
-            //id is fake! should return the first value in the dummy base.
+            // id is fake! should return the first value in the dummy base.
             var actual = this.messageRepository.GetById("1");
             Assert.IsNotNull(actual);
             Assert.AreEqual("User0", actual.Sender.UserName);

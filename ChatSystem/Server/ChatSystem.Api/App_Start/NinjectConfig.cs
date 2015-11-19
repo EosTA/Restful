@@ -6,19 +6,18 @@ namespace ChatSystem.Api.App_Start
     using System;
     using System.Web;
 
+    using Data;
+    using Data.Repository;
+
     using Microsoft.Web.Infrastructure.DynamicModuleHelper;
 
     using Ninject;
     using Ninject.Extensions.Conventions;
     using Ninject.Web.Common;
-    using Data.Repository;
-    using Data;
-    using Services.Data.Contracts;
-    using Services.Data;
 
     public static class NinjectConfig
     {
-        private static readonly Bootstrapper bootstrapper = new Bootstrapper();
+        private static readonly Bootstrapper Bootstrapper = new Bootstrapper();
 
         /// <summary>
         /// Starts the application
@@ -27,7 +26,7 @@ namespace ChatSystem.Api.App_Start
         {
             DynamicModuleUtility.RegisterModule(typeof(OnePerRequestHttpModule));
             DynamicModuleUtility.RegisterModule(typeof(NinjectHttpModule));
-            bootstrapper.Initialize(CreateKernel);
+            Bootstrapper.Initialize(CreateKernel);
         }
 
         /// <summary>
@@ -35,7 +34,7 @@ namespace ChatSystem.Api.App_Start
         /// </summary>
         public static void Stop()
         {
-            bootstrapper.ShutDown();
+            Bootstrapper.ShutDown();
         }
 
         /// <summary>
@@ -70,8 +69,7 @@ namespace ChatSystem.Api.App_Start
 
             kernel.Bind(typeof(IRepository<>)).To(typeof(EfGenericRepository<>));
 
-            kernel.Bind(b => b.
-            From("ChatSystem.Services.Data")
+            kernel.Bind(b => b.From("ChatSystem.Services.Data")
             .SelectAllClasses()
             .BindDefaultInterface());
         }

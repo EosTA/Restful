@@ -1,11 +1,13 @@
 ﻿namespace ChatSystem.Api.Controllers
 {
-    using ChatSystem.Services.Data.Contracts;
-    using Spring.IO;
     using System;
     using System.Net.Http;
     using System.Web.Http;
     using System.Web.Http.Cors;
+
+    using Services.Data.Contracts;
+
+    using Spring.IO;
 
     [Authorize]
     [EnableCors("*", "*", "*")]
@@ -50,7 +52,7 @@
         public IHttpActionResult Delete(string avatarUrl)
         {
             var currentUsername = this.User.Identity.Name;
-            avatars.Delete(currentUsername);
+            this.avatars.Delete(currentUsername);
             return this.Ok("Avatar successfully added.");
         }
     }
