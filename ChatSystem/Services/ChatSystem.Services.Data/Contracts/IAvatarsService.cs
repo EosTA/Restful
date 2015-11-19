@@ -10,6 +10,6 @@
 
         void Delete(string username);
 
-        FileStream Get(string username);
+        string Get(string username);
     }
 }
