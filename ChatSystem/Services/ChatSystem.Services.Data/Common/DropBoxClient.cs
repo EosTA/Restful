@@ -1,21 +1,21 @@
 ﻿namespace ChatSystem.Api.Common
 {
+    using System;
+    using System.Diagnostics;
+    using System.IO;
     using ChatSystem.Common.Constants;
     using Spring.IO;
     using Spring.Social.Dropbox.Api;
     using Spring.Social.Dropbox.Connect;
     using Spring.Social.OAuth1;
-    using System;
-    using System.Diagnostics;
-    using System.IO;
 
-    class DropBoxClient
+    public class DropBoxClient
     {
         // Register your own Dropbox app at https://www.dropbox.com/developers/apps
         // with "Full Dropbox" access level and set your app keys and app secret below
+        private const string OAuthTokenFileName = "OAuthTokenFileName.txt";
         private string dropboxAppKey;
         private string dropboxAppSecret;
-        private const string OAuthTokenFileName = "OAuthTokenFileName.txt";
 
         private DropboxServiceProvider dropboxServiceProvider;
 
@@ -24,21 +24,21 @@
             this.dropboxAppKey = appKey;
             this.dropboxAppSecret = appSecret;
             this.dropboxServiceProvider
-                = new DropboxServiceProvider(dropboxAppKey, dropboxAppSecret, AccessLevel.AppFolder);
+                = new DropboxServiceProvider(this.dropboxAppKey, this.dropboxAppSecret, AccessLevel.AppFolder);
         }
 
         public string Upload(IResource resource, string storeName)
         {
             // Authenticate the application (if not authenticated) and load the OAuth token
-            //if (!File.Exists(OAuthTokenFileName))
-            //{
-            //    AuthorizeAppOAuth(dropboxServiceProvider);
-            //}
+            // if (!File.Exists(OAuthTokenFileName))
+            // {
+            //     AuthorizeAppOAuth(dropboxServiceProvider);
+            // }
 
-            //OAuthToken oauthAccessToken = LoadOAuthToken();
+            // OAuthToken oauthAccessToken = LoadOAuthToken();
 
             // Login in Dropbox
-            IDropbox dropbox = dropboxServiceProvider
+            IDropbox dropbox = this.dropboxServiceProvider
                 .GetApi(AuthorizationConstants.DropBoxOAuthAccessTokenValue, AuthorizationConstants.DropBoxOAuthAccessTokenSecret);
 
             // Display user name (from his profile)
@@ -86,6 +86,4 @@
             File.WriteAllLines(OAuthTokenFileName, oauthData);
         }
     }
-
-
 }

@@ -1,13 +1,13 @@
 ﻿namespace ChatSystem.Services.Data
 {
+    using System;
+    using System.Linq;
     using ChatSystem.Api.Common;
     using ChatSystem.Common.Constants;
     using ChatSystem.Data.Repository;
     using ChatSystem.Models;
     using ChatSystem.Services.Data.Contracts;
     using Spring.IO;
-    using System;
-    using System.Linq;
 
     public class AvatarsService : IAvatarsService
     {
@@ -41,7 +41,7 @@
                 .FirstOrDefault(u => u.UserName == username)
                 .AvatarUrl = null;
             var dropboxClient = new DropBoxClient(AuthorizationConstants.DropboxAppKey, AuthorizationConstants.DropboxAppSecret);
-            // TODO: delete image from dropbox;
+            //// TODO: delete image from dropbox;
         }
     }
 }

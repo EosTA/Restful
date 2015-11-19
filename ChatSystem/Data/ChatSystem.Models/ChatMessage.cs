@@ -2,8 +2,8 @@
 {
     using System;
     using System.ComponentModel.DataAnnotations;
-    using ChatSystem.Common.Constants;
     using System.ComponentModel.DataAnnotations.Schema;
+    using ChatSystem.Common.Constants;
 
     public class ChatMessage
     {

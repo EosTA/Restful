@@ -7,6 +7,5 @@
         public const string ErrorNoMessages = "There are no messages in this corresponding";
 
         public const string ErrorActionNotTaken = "There is some problem with your request";
-
     }
 }
