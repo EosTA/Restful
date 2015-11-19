@@ -49,6 +49,8 @@
             {
                 AddError(result);
             }
+            this.presences.UpdatePresence(thatPerson);
+
             return this.Ok(result);
         }
 
@@ -74,6 +76,9 @@
             {
                 AddError(result);
             }
+
+            this.presences.UpdatePresence(thatPerson);
+
             return this.Ok(result);
         }
 
@@ -94,14 +99,14 @@
 
             this.messages.Add(model.Message, sender, model.Receiver);
 
-            if (GlobalConstants.IsNotificationEnabled && this.presences.CheckPresence(model.Receiver) && this.presences != null)
+            if (GlobalConstants.IsNotificationEnabled && !this.presences.CheckPresence(model.Receiver) && this.presences != null)
             {
                 var notificator = Notificator.GetNotificator();
                 QueueClient queue = notificator.Queue(GlobalConstants.NotificationChanel);
                 queue.Post(sender);
             }
 
-            this.presences.UpdatePresence(model.Receiver);
+            this.presences.UpdatePresence(sender);
 
             return this.Ok(ResponseMessagesInMessageController.MessageInsertedCorrectly);
         }
@@ -124,6 +129,8 @@
                 return this.Ok(ResponseMessagesInMessageController.MessageEditedCorrectly);
             }
 
+            this.presences.UpdatePresence(asker);
+
             return this.BadRequest(ErrorsInMessageController.ErrorActionNotTaken);
         }
 
@@ -141,6 +148,8 @@
                 return this.Ok(ResponseMessagesInMessageController.MessagesUpdatedDateCorrectly);
             }
 
+            this.presences.UpdatePresence(asker);
+
             return this.BadRequest(ErrorsInMessageController.ErrorActionNotTaken);
         }
 
@@ -157,6 +166,8 @@
             {
                 return this.Ok(ResponseMessagesInMessageController.MessageDeletedCorrectly);
             }
+
+            this.presences.UpdatePresence(asker);
 
             return this.BadRequest(ErrorsInMessageController.ErrorActionNotTaken);
         }
