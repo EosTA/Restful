@@ -24,8 +24,8 @@
         public IHttpActionResult Get()
         {
             var currentUsername = this.User.Identity.Name;
-            var file = this.avatars.Get(currentUsername);
-            return this.Ok(file);
+            var avatarUrl = this.avatars.Get(currentUsername);
+            return this.Ok(avatarUrl);
         }
 
         [EnableCors("*", "*", "*")]

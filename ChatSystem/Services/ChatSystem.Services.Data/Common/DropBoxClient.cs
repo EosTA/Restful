@@ -46,14 +46,15 @@
             Console.WriteLine("Hi " + profile.DisplayName + "!");
 
             // Upload a file
-            Entry uploadFileEntry = dropbox.UploadFileAsync(
-                resource, storeName).Result;
+            Entry uploadFileEntry = dropbox.UploadFileAsync(resource, storeName).Result;
             Console.WriteLine("Uploaded a file: {0}", uploadFileEntry.Path);
 
             // Share a file
             //DropboxLink sharedUrl = dropbox.GetShareableLinkAsync(uploadFileEntry.Path).Result;
             //Process.Start(sharedUrl.Url);
-            return uploadFileEntry.Path;
+
+            var link = dropbox.GetMediaLinkAsync(uploadFileEntry.Path).Result;
+            return link.Url;
         }
 
         public byte[] GetFile(string fileUrl)
