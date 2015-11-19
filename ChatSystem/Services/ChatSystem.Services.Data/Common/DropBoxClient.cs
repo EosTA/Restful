@@ -43,33 +43,15 @@
 
             // Display user name (from his profile)
             DropboxProfile profile = dropbox.GetUserProfileAsync().Result;
-            Console.WriteLine("Hi " + profile.DisplayName + "!");
 
             // Upload a file
             Entry uploadFileEntry = dropbox.UploadFileAsync(resource, storeName).Result;
-            Console.WriteLine("Uploaded a file: {0}", uploadFileEntry.Path);
 
             // Share a file
-            //DropboxLink sharedUrl = dropbox.GetShareableLinkAsync(uploadFileEntry.Path).Result;
-            //Process.Start(sharedUrl.Url);
+            DropboxLink sharedUrl = dropbox.GetShareableLinkAsync(uploadFileEntry.Path).Result;
 
             var link = dropbox.GetMediaLinkAsync(uploadFileEntry.Path).Result;
             return link.Url;
-        }
-
-        public byte[] GetFile(string fileUrl)
-        {
-            //if (!File.Exists(OAuthTokenFileName))
-            //{
-            //    AuthorizeAppOAuth(dropboxServiceProvider);
-            //}
-
-            //OAuthToken oauthAccessToken = LoadOAuthToken();
-
-            var serviceProvider = dropboxServiceProvider
-                .GetApi(AuthorizationConstants.DropBoxOAuthAccessTokenValue, AuthorizationConstants.DropBoxOAuthAccessTokenSecret);
-            var file = serviceProvider.DownloadFileAsync(fileUrl).Result;
-            return file.Content;
         }
 
         private OAuthToken LoadOAuthToken()

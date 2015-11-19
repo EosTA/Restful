@@ -2,8 +2,6 @@
 {
     using ChatSystem.Services.Data.Contracts;
     using Spring.IO;
-    using Spring.Social.Dropbox.Api;
-    using Spring.Social.Dropbox.Connect;
     using System;
     using System.Net.Http;
     using System.Web.Http;
@@ -31,26 +29,14 @@
         [EnableCors("*", "*", "*")]
         public IHttpActionResult Post()
         {
-            ByteArrayResource res = null;
-            var currentUsername = this.User.Identity.Name; // TODO
+            var currentUsername = this.User.Identity.Name;
 
             try
             {
-                Request.Content.ReadAsMultipartAsync<MultipartMemoryStreamProvider>(new MultipartMemoryStreamProvider()).ContinueWith((task) =>
-                {
-                    MultipartMemoryStreamProvider provider = task.Result;
-
-                    foreach (HttpContent content in provider.Contents)
-                    {
-                        res = new ByteArrayResource(content.ReadAsByteArrayAsync().Result);
-
-                        //Entry uploadFileEntry = dropbox.UploadFileAsync(
-                        //res, "/plane.jpg", true, null, CancellationToken.None).Result;
-                    }
-                });
-
-
-                this.avatars.Post(res, currentUsername);
+                var contents = this.Request.Content.ReadAsMultipartAsync().Result;
+                HttpContent content = contents.Contents[0];
+                ByteArrayResource resource = new ByteArrayResource(content.ReadAsByteArrayAsync().Result);
+                this.avatars.Post(resource, currentUsername);
                 return this.Ok("Avatar successfully added.");
             }
             catch (Exception)

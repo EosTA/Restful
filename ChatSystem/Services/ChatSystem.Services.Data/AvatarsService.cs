@@ -6,9 +6,7 @@
     using ChatSystem.Models;
     using ChatSystem.Services.Data.Contracts;
     using Spring.IO;
-    using Spring.Social.Dropbox.Api;
     using System;
-    using System.IO;
     using System.Linq;
 
     public class AvatarsService : IAvatarsService
@@ -23,31 +21,16 @@
         public string Get(string username)
         {
             var user = this.users.All().FirstOrDefault(u => u.UserName == username);
-
-            //var dropboxClient = new DropBoxClient(AuthorizationConstants.DropboxAppKey, AuthorizationConstants.DropboxAppSecret);
-            //var avatarUrl = user.AvatarUrl;
-
-            //var dropboxFile = dropboxClient.GetFile(avatarUrl);
-
-            //var extension = dropboxFile.Metadata.MimeType.Split('-')[2];
-            //var tempStorePath= username + '.' + extension;
-
-            //File.WriteAllBytes(tempStorePath, dropboxFile.Content);
-
-            //return File.Open(tempStorePath,FileMode.Open);
-
             var avatarUrl = user.AvatarUrl;
+
             return avatarUrl;
         }
 
         public void Post(IResource resource, string username)
         {
             var user = this.users.All().FirstOrDefault(u => u.UserName == username);
-
             var dropboxClient = new DropBoxClient(AuthorizationConstants.DropboxAppKey, AuthorizationConstants.DropboxAppSecret);
-
             string storeUrl = dropboxClient.Upload(resource, Guid.NewGuid() + ".jpg");
-
             user.AvatarUrl = storeUrl;
             this.users.SaveChanges();
         }
@@ -57,7 +40,7 @@
             this.users.All()
                 .FirstOrDefault(u => u.UserName == username)
                 .AvatarUrl = null;
-
+            var dropboxClient = new DropBoxClient(AuthorizationConstants.DropboxAppKey, AuthorizationConstants.DropboxAppSecret);
             // TODO: delete image from dropbox;
         }
     }
