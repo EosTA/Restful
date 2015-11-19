@@ -1,35 +1,42 @@
-﻿
-namespace ChatSystem.Api.Tests.ControllerTests
+﻿namespace ChatSystem.Api.Tests.ControllerTests
 {
-    using Controllers;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using MyTested.WebApi;
     using System.Collections.Generic;
     using System.Web.Http;
     using System.Web.Http.Results;
+
     using ChatSystem.Api.Tests.TestObject;
-    using System.Net;
-    using System.Net.Http;
-    using Services.Data.Contracts;
     using ChatSystem.Common.Constants;
+
+    using Controllers;
+
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+
+    using Models.Messages;
+
+    using MyTested.WebApi;
+
+    using Services.Data.Contracts;
 
     [TestClass]
     public class MessagesControllerTests
     {
         private IMessagesService messageService;
         private MessagesController controller;
+        private MessagesController controllerWithPresence;
+        private IPresenceService presenceService;
 
         [TestInitialize]
         public void Init()
         {
             this.messageService = TestObjectFactory.GetMessagesService();
             this.controller = new MessagesController(this.messageService);
+            this.presenceService = TestObjectFactory.GetPresenceService();
+            this.controllerWithPresence = new MessagesController(this.messageService, this.presenceService);
         }
 
         [TestMethod]
         public void GetMethodShouldHaveAuthorizeAttribute()
         {
-
             MyWebApi
                 .Controller<MessagesController>()
                 .WithResolvedDependencyFor(this.messageService)
@@ -41,21 +48,18 @@ namespace ChatSystem.Api.Tests.ControllerTests
         [TestMethod]
         public void CallingGetMethodWithValidUserNameShouldReturnStatusCodeOk()
         {
-            var messageService = TestObjectFactory.GetMessagesService();
-
-            MyWebApi
-                .Controller<MessagesController>()
-                .WithResolvedDependencyFor(this.messageService)
-                .Calling(m => m.Get("User1"))
-                .ShouldReturn()
-                .Ok();
+            this.controllerWithPresence.User = new MockedIPrinciple();
+            var result = this.controllerWithPresence
+                .Get(this.controller.User.Identity.Name) as OkNegotiatedContentResult<List<MessageResponseModel>>;
+            var expected = 3;
+            Assert.AreEqual(expected, result.Content.Count);
         }
 
         [TestMethod]
         public void DeleteMessagesShouldReturnCorrectMessageIfOk()
         {
             this.controller.User = new MockedIPrinciple();
-            var result = controller.Delete(5) as OkNegotiatedContentResult<string>;
+            var result = this.controller.Delete(5) as OkNegotiatedContentResult<string>;
             var expected = ResponseMessagesInMessageController.MessageDeletedCorrectly;
             Assert.AreEqual(expected, result.Content);
         }
@@ -63,10 +67,9 @@ namespace ChatSystem.Api.Tests.ControllerTests
         [TestMethod]
         public void DeleteMessagesShouldReturnCorrectErrorMessageWhenNoUserIsProvided()
         {
-            var result = this.controller.Delete(5) as BadRequestErrorMessageResult;
+            var result = this.controllerWithPresence.Delete(5) as BadRequestErrorMessageResult;
             var expected = ErrorsInMessageController.ErrorActionNotTaken;
             Assert.AreEqual(expected, result.Message);
-
         }
 
         [TestMethod]
@@ -79,7 +82,6 @@ namespace ChatSystem.Api.Tests.ControllerTests
             var result = this.controller.Put(correspondant.Identity.Name) as OkNegotiatedContentResult<string>;
             var expected = ResponseMessagesInMessageController.MessagesUpdatedDateCorrectly;
             Assert.AreEqual(expected, result.Content);
-
         }
 
         [TestMethod]
@@ -87,11 +89,10 @@ namespace ChatSystem.Api.Tests.ControllerTests
         {
             var asker = new MockedIPrinciple();
 
-            this.controller.User = asker;
-            var result = this.controller.Put("Pesho") as BadRequestErrorMessageResult;
+            this.controllerWithPresence.User = asker;
+            var result = this.controllerWithPresence.Put("Pesho") as BadRequestErrorMessageResult;
             var expected = ErrorsInMessageController.ErrorActionNotTaken;
             Assert.AreEqual(expected, result.Message);
-
         }
     }
 }
