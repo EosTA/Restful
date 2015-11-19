@@ -4,7 +4,8 @@
     using System.Web.Http;
     using System.Web.Http.Results;
 
-    using ChatSystem.Api.Tests.TestObject;
+    using Api.Tests.TestObject;
+
     using ChatSystem.Common.Constants;
 
     using Controllers;
