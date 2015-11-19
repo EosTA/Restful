@@ -16,10 +16,14 @@
         private readonly IMessagesService messages;
         private readonly IPresenceService presences;
 
-        public MessagesController(IMessagesService messageServicePassed, IPresenceService presenceServicePassed)
+        public MessagesController(IMessagesService messageServicePassed, IPresenceService presenceServicePassed) : this(messageServicePassed)
+        {
+            this.presences = presenceServicePassed;
+        }
+
+        public MessagesController(IMessagesService messageServicePassed)
         {
             this.messages = messageServicePassed;
-            this.presences = presenceServicePassed;
         }
 
         [HttpGet]
@@ -90,7 +94,7 @@
 
             this.messages.Add(model.Message, sender, model.Receiver);
 
-            if (GlobalConstants.IsNotificationEnabled && this.presences.CheckPresence(model.Receiver))
+            if (GlobalConstants.IsNotificationEnabled && this.presences.CheckPresence(model.Receiver) && this.presences != null)
             {
                 var notificator = Notificator.GetNotificator();
                 QueueClient queue = notificator.Queue(GlobalConstants.NotificationChanel);
