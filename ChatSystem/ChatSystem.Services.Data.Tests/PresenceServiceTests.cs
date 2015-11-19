@@ -61,5 +61,34 @@
             var expected = this.presenceService.CheckPresence(testUser.User.UserName);
             Assert.AreEqual(false, expected);
         }
+
+        [TestMethod]
+        public void UpdatePresenceShouldRegisterPresenceIfNotRegisteredInTimeInterval()
+        {
+            var user = new User()
+            {
+                Id = "118",
+                UserName = "Username118",
+                FirstName = "User118",
+                LastName = "User lastName118"
+            };
+            this.userRepository.Add(user);
+            this.presenceService.UpdatePresence(user.UserName);
+            var count = this.presenceRepository.All().ToList().Count;
+            Assert.AreEqual(21,count);
+        }
+
+        [TestMethod]
+        public void UpdatePresenceShouldNotRegisterPresenceIfUserIsRegisteredInTimeInterval()
+        {
+            var userToUpdatePresence = this.userRepository.All().FirstOrDefault();
+            var userWithPresence = this.presenceRepository.All().Where(u =>
+                                                u.UserId == userToUpdatePresence.Id).FirstOrDefault();
+            var newTimeSpan = userWithPresence.RegisteredOn.AddMinutes(-30.0);
+            userWithPresence.RegisteredOn = newTimeSpan;
+            this.presenceService.UpdatePresence(userWithPresence.User.UserName);
+            var count = this.presenceRepository.All().ToList().Count;
+            Assert.AreEqual(20, count);
+        }
     }
 }
