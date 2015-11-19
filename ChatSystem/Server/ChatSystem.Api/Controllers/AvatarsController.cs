@@ -18,6 +18,7 @@
             this.avatars = avatarServicePassed;
         }
 
+        // /api/avatars => returns url as string
         [EnableCors("*", "*", "*")]
         public IHttpActionResult Get()
         {
@@ -26,6 +27,7 @@
             return this.Ok(avatarUrl);
         }
 
+        // /api/avatars
         [EnableCors("*", "*", "*")]
         public IHttpActionResult Post()
         {
