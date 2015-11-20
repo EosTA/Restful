@@ -7,7 +7,8 @@
  * api/messages/{messageId} - With PUT request modifies the message with the pointed Id. It expects json object with property `Message`. If you provide property `IsChangingDate` set to `true` (bool) it marks the message as read.
  * api/messages/all/{correspondent} - With PUT request modifies all messages between current user and the pointed one as read.
  * api/messages/{messageId} - With DELETE request deletes message with pointed Id.
- ##### Avatar
+ 
+##### Avatars
  * api/avatars - With GET request returns url of avatar as string
  * api/avatars - With POST request iterracts with Dropbox API
 
