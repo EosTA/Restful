@@ -2,7 +2,7 @@
 {
     using System.Linq;
     using ChatSystem.Common.Constants;
-    using ChatSystem.Models;
+    using ChatSystem.Data.Models;
 
     public interface IMessagesService
     {

@@ -122,17 +122,27 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="ControllerTests\AvatarsControllerTests.cs" />
     <Compile Include="ControllerTests\MessagesControllerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RouteTests\AvatarRouteTests.cs" />
     <Compile Include="RouteTests\MessagesRoutesTests.cs" />
     <Compile Include="TestInitializator.cs" />
     <Compile Include="TestObjectFactory.cs" />
+    <Compile Include="TestObject\MockedIIdentity.cs" />
+    <Compile Include="TestObject\MockedIPrincipal.cs" />
+    <Compile Include="TestObject\SecondMockedIIDentity.cs" />
+    <Compile Include="TestObject\SecondMockedIPrincipal.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Common\ChatSystem.Common\ChatSystem.Common.csproj">
+      <Project>{c27a4974-7c8b-4626-aff5-b0f6fe78e04a}</Project>
+      <Name>ChatSystem.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Data\ChatSystem.Data\ChatSystem.Data.csproj">
       <Project>{7f876f27-12b6-44f9-a0fb-84c8b9eaab5b}</Project>
       <Name>ChatSystem.Data</Name>

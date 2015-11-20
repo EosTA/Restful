@@ -2,16 +2,11 @@
 {
     using System;
     using System.Linq.Expressions;
-    using ChatSystem.Models;
+
+    using Data.Models;
 
     public class UserResponseModel
     {
-        public string UserName { get; set; }
-
-        public string FirstName { get; set; }
-
-        public string LastName { get; set; }
-
         public static Expression<Func<User, UserResponseModel>> FromModel
         {
             get
@@ -22,5 +17,11 @@
                 };
             }
         }
+
+        public string UserName { get; set; }
+
+        public string FirstName { get; set; }
+
+        public string LastName { get; set; }
     }
 }

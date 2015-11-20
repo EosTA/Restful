@@ -2,9 +2,9 @@
 {
     using System;
     using System.Linq;
-    using ChatSystem.Data.Repository;
     using ChatSystem.Common.Constants;
-    using ChatSystem.Models;
+    using ChatSystem.Data.Models;
+    using ChatSystem.Data.Repository;
     using ChatSystem.Services.Data.Contracts;
     using Common.Exceptions;
 
@@ -13,7 +13,8 @@
         private readonly IRepository<ChatMessage> messages;
         private readonly IRepository<User> users;
 
-        public MessagesService(IRepository<ChatMessage> messagesRepo,
+        public MessagesService(
+            IRepository<ChatMessage> messagesRepo,
             IRepository<User> usersRepo)
         {
             this.messages = messagesRepo;
@@ -30,7 +31,7 @@
                 .All()
                 .FirstOrDefault(user => user.UserName == requestAskPerson);
 
-            if(requestTaker == null || requestAsker == null)
+            if (requestTaker == null || requestAsker == null)
             {
                 throw new NotCorrectCorrespondentProvidedException();
             }
@@ -83,8 +84,6 @@
             {
                 return false;
             }
-
-
 
             if (isChangingDate)
             {
@@ -140,6 +139,7 @@
             {
                 singleMessage.ReadOn = date;
             }
+
             this.messages.SaveChanges();
 
             return true;

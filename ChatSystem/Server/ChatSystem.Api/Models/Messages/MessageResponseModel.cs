@@ -2,7 +2,8 @@
 {
     using System;
     using System.Linq.Expressions;
-    using ChatSystem.Models;
+
+    using Data.Models;
 
     public class MessageResponseModel
     {

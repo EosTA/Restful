@@ -1,7 +1,7 @@
 ﻿namespace ChatSystem.Api
 {
     using System.Web.Http;
-    using System.Net.Http.Formatting;
+
     using Microsoft.Owin.Security.OAuth;
 
     public static class WebApiConfig
@@ -20,8 +20,7 @@
             config.Routes.MapHttpRoute(
                 name: "DefaultApi",
                 routeTemplate: "api/{controller}/{id}",
-                defaults: new { id = RouteParameter.Optional }
-            );
+                defaults: new { id = RouteParameter.Optional });
         }
     }
 }

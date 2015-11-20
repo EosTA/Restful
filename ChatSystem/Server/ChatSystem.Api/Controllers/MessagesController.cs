@@ -4,14 +4,27 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Web.Http;
-    using ChatSystem.Api.Models.Messages;
+
     using ChatSystem.Common.Constants;
-    using ChatSystem.Services.Data.Contracts;
     using ChatSystem.Common.Exceptions;
+
+    using IronSharp.IronMQ;
+
+    using Models.Messages;
+
+    using Providers;
+
+    using Services.Data.Contracts;
 
     public class MessagesController : ApiController
     {
         private readonly IMessagesService messages;
+        private readonly IPresenceService presences;
+
+        public MessagesController(IMessagesService messageServicePassed, IPresenceService presenceServicePassed) : this(messageServicePassed)
+        {
+            this.presences = presenceServicePassed;
+        }
 
         public MessagesController(IMessagesService messageServicePassed)
         {
@@ -33,14 +46,17 @@
                 .Select(MessageResponseModel.FromModel(thatPerson))
                 .ToList();
             }
-            catch (NotSupportedException e)
+            catch (NotSupportedException)
             {
-                AddError(result);
+                this.AddError(result);
             }
-            catch (NotCorrectCorrespondentProvidedException e)
+            catch (NotCorrectCorrespondentProvidedException)
             {
-                AddError(result);
+                this.AddError(result);
             }
+
+            this.presences.UpdatePresence(thatPerson);
+
             return this.Ok(result);
         }
 
@@ -58,14 +74,17 @@
                 .Select(MessageResponseModel.FromModel(thatPerson))
                 .ToList();
             }
-            catch (NotSupportedException e)
+            catch (NotSupportedException)
             {
-                AddError(result);
+                this.AddError(result);
             }
-            catch (NotCorrectCorrespondentProvidedException e)
+            catch (NotCorrectCorrespondentProvidedException)
             {
-                AddError(result);
+                this.AddError(result);
             }
+
+            this.presences.UpdatePresence(thatPerson);
+
             return this.Ok(result);
         }
 
@@ -85,6 +104,16 @@
             }
 
             this.messages.Add(model.Message, sender, model.Receiver);
+
+            if (GlobalConstants.IsNotificationEnabled && !this.presences.CheckPresence(model.Receiver) && this.presences != null)
+            {
+                var notificator = Notificator.GetNotificator();
+                QueueClient queue = notificator.Queue(GlobalConstants.NotificationChanel);
+                queue.Post(sender);
+            }
+
+            this.presences.UpdatePresence(sender);
+
             return this.Ok(ResponseMessagesInMessageController.MessageInsertedCorrectly);
         }
 
@@ -97,6 +126,7 @@
             {
                 return this.BadRequest();
             }
+
             var asker = this.User.Identity.Name;
 
             var result = this.messages.ChangeMessage(messageId, model.IsChangingDate, model.Message, asker);
@@ -105,6 +135,8 @@
             {
                 return this.Ok(ResponseMessagesInMessageController.MessageEditedCorrectly);
             }
+
+            this.presences.UpdatePresence(asker);
 
             return this.BadRequest(ErrorsInMessageController.ErrorActionNotTaken);
         }
@@ -123,6 +155,8 @@
                 return this.Ok(ResponseMessagesInMessageController.MessagesUpdatedDateCorrectly);
             }
 
+            this.presences.UpdatePresence(asker);
+
             return this.BadRequest(ErrorsInMessageController.ErrorActionNotTaken);
         }
 
@@ -139,6 +173,8 @@
             {
                 return this.Ok(ResponseMessagesInMessageController.MessageDeletedCorrectly);
             }
+
+            this.presences.UpdatePresence(asker);
 
             return this.BadRequest(ErrorsInMessageController.ErrorActionNotTaken);
         }

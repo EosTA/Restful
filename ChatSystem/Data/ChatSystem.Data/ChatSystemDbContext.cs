@@ -1,8 +1,10 @@
 ﻿namespace ChatSystem.Data
 {
     using System.Data.Entity;
-    using ChatSystem.Models;
+
     using Microsoft.AspNet.Identity.EntityFramework;
+
+    using Models;
 
     public class ChatSystemDbContext : IdentityDbContext<User>, IChatSystemDbContext
     {
@@ -12,6 +14,8 @@
         }
 
         public virtual IDbSet<ChatMessage> ChatMessages { get; set; } 
+
+        public virtual IDbSet<Presence> Presences { get; set; }
 
         public static ChatSystemDbContext Create()
         {

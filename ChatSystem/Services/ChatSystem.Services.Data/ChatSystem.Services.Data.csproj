@@ -74,11 +74,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AvatarsService.cs" />
-    <Compile Include="Common\DropBoxController.cs" />
+    <Compile Include="Common\DropBoxClient.cs" />
     <Compile Include="Contracts\IAvatarsService.cs" />
     <Compile Include="Contracts\IMessagesService.cs" />
+    <Compile Include="Contracts\IPresenceService.cs" />
     <Compile Include="Contracts\IUserService.cs" />
     <Compile Include="MessagesService.cs" />
+    <Compile Include="PresenceService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UserServise.cs" />
   </ItemGroup>

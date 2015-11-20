@@ -1,11 +1,12 @@
 ﻿namespace ChatSystem.Api
 {
+    using Data;
+    using Data.Models;
+
     using Microsoft.AspNet.Identity;
     using Microsoft.AspNet.Identity.EntityFramework;
     using Microsoft.AspNet.Identity.Owin;
     using Microsoft.Owin;
-    using ChatSystem.Models;
-    using ChatSystem.Data;
 
     public class ApplicationUserManager : UserManager<User>
     {
@@ -17,12 +18,14 @@
         public static ApplicationUserManager Create(IdentityFactoryOptions<ApplicationUserManager> options, IOwinContext context)
         {
             var manager = new ApplicationUserManager(new UserStore<User>(context.Get<ChatSystemDbContext>()));
+            
             // Configure validation logic for usernames
             manager.UserValidator = new UserValidator<User>(manager)
             {
                 AllowOnlyAlphanumericUserNames = true,
                 RequireUniqueEmail = true
             };
+           
             // Configure validation logic for passwords
             manager.PasswordValidator = new PasswordValidator
             {
@@ -32,11 +35,13 @@
                 RequireLowercase = false,
                 RequireUppercase = false,
             };
+
             var dataProtectionProvider = options.DataProtectionProvider;
             if (dataProtectionProvider != null)
             {
                 manager.UserTokenProvider = new DataProtectorTokenProvider<User>(dataProtectionProvider.Create("ASP.NET Identity"));
             }
+
             return manager;
         }
     }

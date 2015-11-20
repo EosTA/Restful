@@ -1,13 +1,13 @@
 ﻿namespace ChatSystem.Api.Controllers
 {
-    using ChatSystem.Services.Data.Contracts;
-    using Spring.IO;
-    using Spring.Social.Dropbox.Api;
-    using Spring.Social.Dropbox.Connect;
     using System;
     using System.Net.Http;
     using System.Web.Http;
     using System.Web.Http.Cors;
+
+    using Services.Data.Contracts;
+
+    using Spring.IO;
 
     [Authorize]
     [EnableCors("*", "*", "*")]
@@ -20,37 +20,27 @@
             this.avatars = avatarServicePassed;
         }
 
+        // /api/avatars => returns url as string
         [EnableCors("*", "*", "*")]
         public IHttpActionResult Get()
         {
             var currentUsername = this.User.Identity.Name;
-            var file = this.avatars.Get(currentUsername);
-            return this.Ok(file);
+            var avatarUrl = this.avatars.Get(currentUsername);
+            return this.Ok(avatarUrl);
         }
 
+        // /api/avatars
         [EnableCors("*", "*", "*")]
         public IHttpActionResult Post()
         {
-            ByteArrayResource res = null;
-            var currentUsername = this.User.Identity.Name; // TODO
+            var currentUsername = this.User.Identity.Name;
 
             try
             {
-                Request.Content.ReadAsMultipartAsync<MultipartMemoryStreamProvider>(new MultipartMemoryStreamProvider()).ContinueWith((task) =>
-                {
-                    MultipartMemoryStreamProvider provider = task.Result;
-
-                    foreach (HttpContent content in provider.Contents)
-                    {
-                        res = new ByteArrayResource(content.ReadAsByteArrayAsync().Result);
-
-                        //Entry uploadFileEntry = dropbox.UploadFileAsync(
-                        //res, "/plane.jpg", true, null, CancellationToken.None).Result;
-                    }
-                });
-
-
-                this.avatars.Post(res, currentUsername);
+                var contents = this.Request.Content.ReadAsMultipartAsync().Result;
+                HttpContent content = contents.Contents[0];
+                ByteArrayResource resource = new ByteArrayResource(content.ReadAsByteArrayAsync().Result);
+                this.avatars.Post(resource, currentUsername);
                 return this.Ok("Avatar successfully added.");
             }
             catch (Exception)
@@ -62,7 +52,7 @@
         public IHttpActionResult Delete(string avatarUrl)
         {
             var currentUsername = this.User.Identity.Name;
-            avatars.Delete(currentUsername);
+            this.avatars.Delete(currentUsername);
             return this.Ok("Avatar successfully added.");
         }
     }

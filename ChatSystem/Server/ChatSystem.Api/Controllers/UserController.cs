@@ -9,13 +9,13 @@
 
     public class UserController : ApiController
     {
-
         private readonly IUserService users;
 
         public UserController(IUserService usersServicePassed)
         {
             this.users = usersServicePassed;
         }
+
         [HttpGet]
         [Route("api/users")]
         [Authorize]
@@ -24,7 +24,7 @@
             var thatPerson = this.User.Identity.Name;
 
             var result = this.users
-            .All()
+            .All(thatPerson)
             .Select(UserResponseModel.FromModel)
             .ToList();
 

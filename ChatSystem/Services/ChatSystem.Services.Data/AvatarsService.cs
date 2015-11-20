@@ -1,15 +1,13 @@
 ﻿namespace ChatSystem.Services.Data
 {
+    using System;
+    using System.Linq;
     using ChatSystem.Api.Common;
     using ChatSystem.Common.Constants;
+    using ChatSystem.Data.Models;
     using ChatSystem.Data.Repository;
-    using ChatSystem.Models;
     using ChatSystem.Services.Data.Contracts;
     using Spring.IO;
-    using Spring.Social.Dropbox.Api;
-    using System;
-    using System.IO;
-    using System.Linq;
 
     public class AvatarsService : IAvatarsService
     {
@@ -20,31 +18,19 @@
             this.users = usersRepo;
         }
 
-        public FileStream Get(string username)
+        public string Get(string username)
         {
             var user = this.users.All().FirstOrDefault(u => u.UserName == username);
-
-            var dropboxClient = new DropBoxController(AuthorizationConstants.DropboxAppKey, AuthorizationConstants.DropboxAppSecret);
             var avatarUrl = user.AvatarUrl;
 
-            var dropboxFile = dropboxClient.GetFile(avatarUrl);
-
-            var extension = dropboxFile.Metadata.MimeType.Split('-')[2];
-            var tempStorePath= username + '.' + extension;
-            
-            File.WriteAllBytes(tempStorePath, dropboxFile.Content);
-
-            return File.Open(tempStorePath,FileMode.Open);
+            return avatarUrl;
         }
 
         public void Post(IResource resource, string username)
         {
             var user = this.users.All().FirstOrDefault(u => u.UserName == username);
-
-            var dropboxClient = new DropBoxController(AuthorizationConstants.DropboxAppKey, AuthorizationConstants.DropboxAppSecret);
-
-            string storeUrl = dropboxClient.Upload(resource, Guid.NewGuid() + ".bmp");
-
+            var dropboxClient = new DropBoxClient(AuthorizationConstants.DropboxAppKey, AuthorizationConstants.DropboxAppSecret);
+            string storeUrl = dropboxClient.Upload(resource, Guid.NewGuid() + ".jpg");
             user.AvatarUrl = storeUrl;
             this.users.SaveChanges();
         }
@@ -54,8 +40,8 @@
             this.users.All()
                 .FirstOrDefault(u => u.UserName == username)
                 .AvatarUrl = null;
-
-            // TODO: delete image from dropbox;
+            var dropboxClient = new DropBoxClient(AuthorizationConstants.DropboxAppKey, AuthorizationConstants.DropboxAppSecret);
+            //// TODO: delete image from dropbox;
         }
     }
 }
