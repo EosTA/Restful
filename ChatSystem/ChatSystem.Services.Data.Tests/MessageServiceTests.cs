@@ -21,8 +21,8 @@
         [TestInitialize]
         public void Initialize()
         {
-            this.messageRepository = TestObjectFactory.GetMessageRepository();
-            this.userRepository = TestObjectFactory.GetUsersRepository();
+            this.messageRepository = RepositoriesTestObjectFactory.GetMessageRepository();
+            this.userRepository = RepositoriesTestObjectFactory.GetUsersRepository();
             this.messageService = new MessagesService(this.messageRepository, this.userRepository);
         }
 

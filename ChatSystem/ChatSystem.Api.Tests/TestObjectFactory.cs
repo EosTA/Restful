@@ -37,6 +37,44 @@
             }
         }.AsQueryable();
 
+
+        public static IQueryable<User> Users = new List<User>
+        {
+           new User
+                {
+                    Id = "User0",
+                    UserName = "Username0",
+                    FirstName = "User0",
+                    LastName = "User lastName0",
+                    AvatarUrl = "Avatar0"
+                },
+           new User
+                {
+                    Id = "User01",
+                    UserName = "Username01",
+                    FirstName = "User01",
+                    LastName = "User lastName01",
+                    AvatarUrl = "Avatar01"
+                },
+           new User
+                {
+                    Id = "User02",
+                    UserName = "Username02",
+                    FirstName = "User02",
+                    LastName = "User lastName02",
+                    AvatarUrl = "Avatar02"
+                },
+           new User
+                {
+                    Id = "User03",
+                    UserName = "Username03",
+                    FirstName = "User03",
+                    LastName = "User lastName03",
+                    AvatarUrl = "Avatar03"
+                },
+       }.AsQueryable();
+
+    
         public static IMessagesService GetMessagesService()
         {
             var messagesService = new Mock<IMessagesService>();
@@ -57,6 +95,14 @@
             var presenceService = new Mock<IPresenceService>();
             presenceService.Setup(m => m.UpdatePresence("User5"));
             return presenceService.Object;
+        }
+
+        public static IAvatarsService GetAvatarsService()
+        {
+            var avatarsService = new Mock<IAvatarsService>();
+            var urlName = Users.FirstOrDefault().AvatarUrl;
+            avatarsService.Setup(a => a.Get(It.IsAny<string>())).Returns(urlName);
+            return avatarsService.Object;
         }
     }
 }

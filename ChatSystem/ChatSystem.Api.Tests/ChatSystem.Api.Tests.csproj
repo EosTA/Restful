@@ -122,8 +122,10 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="ControllerTests\AvatarsControllerTests.cs" />
     <Compile Include="ControllerTests\MessagesControllerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RouteTests\AvatarRouteTests.cs" />
     <Compile Include="RouteTests\MessagesRoutesTests.cs" />
     <Compile Include="TestInitializator.cs" />
     <Compile Include="TestObjectFactory.cs" />

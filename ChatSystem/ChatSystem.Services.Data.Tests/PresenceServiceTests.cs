@@ -17,8 +17,8 @@
         [TestInitialize]
         public void Init()
         {
-            this.presenceRepository = TestObjectFactory.GetPresenceRepository();
-            this.userRepository = TestObjectFactory.GetUsersRepository();
+            this.presenceRepository = RepositoriesTestObjectFactory.GetPresenceRepository();
+            this.userRepository = RepositoriesTestObjectFactory.GetUsersRepository();
             this.presenceService = new PresenceService(this.userRepository, this.presenceRepository);
         }
 

@@ -72,7 +72,7 @@
     <Compile Include="PresenceServiceTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TestObjects\InMemoryRepository.cs" />
-    <Compile Include="TestObjects\TestObjectFactory.cs" />
+    <Compile Include="TestObjects\RepositoriesTestObjectFactory.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Data\ChatSystem.Data\ChatSystem.Data.csproj">
