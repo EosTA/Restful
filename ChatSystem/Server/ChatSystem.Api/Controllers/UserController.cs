@@ -24,7 +24,7 @@
             var thatPerson = this.User.Identity.Name;
 
             var result = this.users
-            .All()
+            .All(thatPerson)
             .Select(UserResponseModel.FromModel)
             .ToList();
 

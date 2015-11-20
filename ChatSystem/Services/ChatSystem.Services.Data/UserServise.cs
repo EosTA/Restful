@@ -16,9 +16,11 @@
             this.users = usersRepo;
         }
         
-        public IQueryable<User> All()
+        public IQueryable<User> All(string correspondent)
         {
-            return this.users.All();
+            return this.users
+                .All()
+                .Where(x=>x.UserName!=correspondent);
         }
     }
 }

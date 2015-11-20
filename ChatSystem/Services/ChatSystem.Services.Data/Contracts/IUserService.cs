@@ -5,6 +5,6 @@
 
     public interface IUserService
     {
-        IQueryable<User> All();
+        IQueryable<User> All(string correspondent);
     }
 }
