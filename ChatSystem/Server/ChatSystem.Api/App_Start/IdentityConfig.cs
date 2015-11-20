@@ -1,8 +1,7 @@
 ﻿namespace ChatSystem.Api
 {
-    using ChatSystem.Models;
-
     using Data;
+    using Data.Models;
 
     using Microsoft.AspNet.Identity;
     using Microsoft.AspNet.Identity.EntityFramework;

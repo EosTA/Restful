@@ -2,9 +2,9 @@
 {
     using System.Linq;
 
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using ChatSystem.Data.Models;
 
-    using Models;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
 
     using Services.Data.Contracts;
 

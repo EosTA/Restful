@@ -5,7 +5,7 @@
     using System.Security.Claims;
     using System.Threading.Tasks;
 
-    using ChatSystem.Models;
+    using Data.Models;
 
     using Microsoft.AspNet.Identity.Owin;
     using Microsoft.Owin.Security;

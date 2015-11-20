@@ -7,7 +7,7 @@
     <ProjectGuid>{79705D9A-E041-4B6F-9509-A22F155D16D0}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ChatSystem.Models</RootNamespace>
+    <RootNamespace>ChatSystem.Data.Models</RootNamespace>
     <AssemblyName>ChatSystem.Models</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>

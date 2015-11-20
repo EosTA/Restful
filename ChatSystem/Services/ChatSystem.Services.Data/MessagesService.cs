@@ -3,8 +3,8 @@
     using System;
     using System.Linq;
     using ChatSystem.Common.Constants;
+    using ChatSystem.Data.Models;
     using ChatSystem.Data.Repository;
-    using ChatSystem.Models;
     using ChatSystem.Services.Data.Contracts;
     using Common.Exceptions;
 

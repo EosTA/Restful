@@ -1,13 +1,17 @@
 ﻿namespace ChatSystem.Api.Tests.ControllerTests
 {
-    using System;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using MyTested.WebApi;
-    using Controllers;
-    using Services.Data.Contracts;
     using System.Linq;
-    using ChatSystem.Models;
     using System.Web.Http.Results;
+
+    using Controllers;
+
+    using Data.Models;
+
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+
+    using MyTested.WebApi;
+
+    using Services.Data.Contracts;
 
     [TestClass]
     public class AvatarsControllerTests

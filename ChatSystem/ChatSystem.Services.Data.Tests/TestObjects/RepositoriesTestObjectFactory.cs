@@ -1,8 +1,9 @@
 ﻿namespace ChatSystem.Services.Data.Tests.TestObjects
 {
     using System;
-    using ChatSystem.Models;
     using System.Linq;
+
+    using ChatSystem.Data.Models;
 
     public static class RepositoriesTestObjectFactory
     {

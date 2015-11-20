@@ -1,11 +1,14 @@
 ﻿namespace ChatSystem.Services.Data.Tests
 {
-    using System;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using Contracts;
-    using Models;
-    using TestObjects;
     using System.Linq;
+
+    using ChatSystem.Data.Models;
+
+    using Contracts;
+
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+
+    using TestObjects;
 
     [TestClass]
     public class PresenceServiceTests
@@ -75,7 +78,7 @@
             this.userRepository.Add(user);
             this.presenceService.UpdatePresence(user.UserName);
             var count = this.presenceRepository.All().ToList().Count;
-            Assert.AreEqual(21,count);
+            Assert.AreEqual(21, count);
         }
 
         [TestMethod]

@@ -3,13 +3,12 @@
     using System;
     using System.Linq;
 
+    using ChatSystem.Data.Models;
     using ChatSystem.Data.Repository;
 
     using Common.Constants;
 
     using Data.Contracts;
-
-    using Models;
 
     public class PresenceService : IPresenceService
     {

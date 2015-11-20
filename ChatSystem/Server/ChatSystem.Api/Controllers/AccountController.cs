@@ -4,15 +4,13 @@
     using System.Collections.Generic;
     using System.Net.Http;
     using System.Security.Claims;
-    using System.Security.Cryptography;
     using System.Threading.Tasks;
     using System.Web;
     using System.Web.Http;
-
-    using ChatSystem.Api.Models;
     using ChatSystem.Api.Providers;
     using ChatSystem.Api.Results;
-    using ChatSystem.Models;
+
+    using Data.Models;
 
     using Microsoft.AspNet.Identity;
     using Microsoft.AspNet.Identity.EntityFramework;

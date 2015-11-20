@@ -1,8 +1,10 @@
 ﻿namespace ChatSystem.Services.Data
 {
     using System.Linq;
+
+    using ChatSystem.Data.Models;
     using ChatSystem.Data.Repository;
-    using ChatSystem.Models;
+
     using Contracts;
 
     public class UserService : IUserService
@@ -20,7 +22,7 @@
         {
             return this.users
                 .All()
-                .Where(x=>x.UserName!=correspondent);
+                .Where(x => x.UserName != correspondent);
         }
     }
 }

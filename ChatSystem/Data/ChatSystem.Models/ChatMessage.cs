@@ -1,9 +1,10 @@
-﻿namespace ChatSystem.Models
+﻿namespace ChatSystem.Data.Models
 {
     using System;
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
-    using ChatSystem.Common.Constants;
+
+    using Common.Constants;
 
     public class ChatMessage
     {

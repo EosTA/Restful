@@ -1,4 +1,4 @@
-﻿namespace ChatSystem.Models
+﻿namespace ChatSystem.Data.Models
 {
     using System;
     using System.ComponentModel.DataAnnotations;

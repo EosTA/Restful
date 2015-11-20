@@ -2,7 +2,8 @@
 {
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
-    using ChatSystem.Models;
+
+    using Models;
 
     public interface IChatSystemDbContext
     {

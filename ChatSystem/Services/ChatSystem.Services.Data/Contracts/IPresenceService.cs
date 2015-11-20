@@ -1,6 +1,6 @@
 ﻿namespace ChatSystem.Services.Data.Contracts
 {
-    using ChatSystem.Models;
+    using ChatSystem.Data.Models;
 
     public interface IPresenceService
     {
